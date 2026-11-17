@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+/* The site uses the same files it ships: change the brand in static/brand and the site follows.
+ * Fonts come in through a <link> (fonts.css) in +layout.svelte: served as a static file with a
+ * relative path instead of going through Vite. */
+@import '../../static/brand/css/theme.css';
+@import '../../static/brand/css/components.css';
+
+@layer base {
+	html {
+		/* No scroll-smooth: smooth scrolling belongs to Lenis (use-smooth-scroll); the two fight. */
+		@apply overflow-x-clip;
+		scroll-padding-top: 5rem;
+	}
+
+	body {
+		@apply bg-background font-sans text-foreground antialiased transition-colors duration-300;
+	}
+
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-ring;
+	}
+
+	::selection {
+		@apply bg-primary-soft text-foreground;
+	}
+}
+
+/* Checkerboard background to show logo transparency. */
+@utility bg-checker {
+	background-color: var(--surface);
+	background-image: repeating-conic-gradient(var(--muted) 0 25%, transparent 0 50%);
+	background-size: 20px 20px;
+}
+
+/*
+ * Reduced motion applies to everything. It sits outside @layer and uses important on purpose:
+ * it is the reader's accessibility preference, and no style may override it.
+ */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0s !important; /* design-allow: accessibility wins */
+		animation-iteration-count: 1 !important; /* design-allow: accessibility wins */
+		transition-duration: 0s !important; /* design-allow: accessibility wins */
+		scroll-behavior: auto !important; /* design-allow: accessibility wins */
+	}
+}

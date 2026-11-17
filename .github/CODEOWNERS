@@ -1,0 +1,13 @@
+# Dono padrão: qualquer arquivo sem regra mais específica abaixo cai aqui.
+*                     @vinicius-gpl
+
+# Site (brand book) e arquivos da marca
+/acerola-brand/       @vinicius-gpl
+
+# Padrão: skills, scripts e kit de projeto
+/.claude/             @vinicius-gpl
+/scripts/             @vinicius-gpl
+/padrao/              @vinicius-gpl
+
+# CI/CD e configuração do repositório
+/.github/             @vinicius-gpl

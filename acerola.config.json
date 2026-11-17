@@ -1,0 +1,23 @@
+{
+	"project": "acerola-brand",
+	"description": "Design system e padrão de projeto de todos os apps Acerola.",
+	"commit": {
+		"scopes": {
+			"site": "acerola-brand/ (o brand book em SvelteKit)",
+			"kit": "scripts/ e template/ (hooks, verificadores e o kit de projeto)",
+			"ci": ".github/",
+			"docs": "docs/ e os .md da raiz",
+			"claude": ".claude/ e CLAUDE.md",
+			"deps": "atualização de dependência"
+		}
+	},
+	"design": {
+		"scan": ["acerola-brand/src"],
+		"extensions": [".svelte", ".ts", ".css", ".html"],
+		"exempt": ["/theme/", "/generated/", "/paraglide/", "\\.test\\.ts$", "\\.d\\.ts$"]
+	},
+	"i18n": {
+		"messages": ["acerola-brand/messages"],
+		"baseLocale": "pt-br"
+	}
+}

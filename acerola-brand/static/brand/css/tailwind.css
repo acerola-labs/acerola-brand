@@ -1,0 +1,10 @@
+/* Acerola Tailwind v4 theme: the same as acerola-sync (theme/tailwind.css + tokens.css).
+ * Import it after Tailwind:
+ *
+ *   @import 'tailwindcss';
+ *   @import './acerola/tailwind.css';
+ *
+ * Gives the token classes: bg-primary, text-muted-foreground, bg-success-soft, bg-surface,
+ * rounded-card, shadow-float, font-heading… The values live in tokens.css (light and dark). */
+@import './fonts.css';
+@import './theme.css';

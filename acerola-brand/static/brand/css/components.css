@@ -1,0 +1,526 @@
+/* Acerola components as plain CSS (.ac-* classes), taken from the acerola-sync components
+ * (AcerolaButton, AcerolaChipTabs, AcerolaPillNav, AcerolaStatTile, AcerolaMediaCard,
+ * AcerolaEmptyState…). A model for any stack.
+ *
+ * Design: solid blocks with very round corners and no border. State shows in the background color
+ * (*-soft) or in a dot, never in a colored border. Strong text is DM Sans font-black. */
+
+/* ---------- Simple layout ---------- */
+
+.ac-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem;
+}
+.ac-stack {
+	display: grid;
+	gap: 0.75rem;
+}
+.ac-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+	gap: 0.75rem;
+}
+.ac-field {
+	display: grid;
+	gap: 0.5rem;
+}
+
+/* ---------- Text ---------- */
+
+/* Small line above a screen title. */
+.ac-eyebrow {
+	margin: 0;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--muted-foreground);
+}
+
+/* Short uppercase label (number block, cover chip). */
+.ac-label {
+	margin: 0;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.025em;
+	text-transform: uppercase;
+	opacity: 0.8;
+}
+
+/* Screen title: a big, heavy word. */
+.ac-title {
+	margin: 0;
+	font-size: 2.75rem;
+	font-weight: 900;
+	line-height: 1;
+	letter-spacing: -0.05em;
+}
+/* Inactive type in the title (Anime | Manga): the other word is dimmed. */
+.ac-title__dim {
+	color: var(--muted-foreground);
+	opacity: 0.35;
+}
+
+/* Section title. */
+.ac-section-title {
+	margin: 0;
+	font-size: 1.125rem;
+	font-weight: 900;
+	line-height: 1;
+	letter-spacing: -0.025em;
+}
+
+.ac-number {
+	font-weight: 900;
+	letter-spacing: -0.025em;
+	font-variant-numeric: tabular-nums;
+}
+
+.ac-link {
+	color: var(--primary);
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+/* ---------- Buttons ---------- */
+
+.ac-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	min-height: var(--control-height);
+	padding: 0 1.25rem;
+	border: 0;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	color: var(--foreground);
+	font: 900 0.875rem/1 var(--font-sans);
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		transform 200ms var(--ease-brand),
+		filter 200ms var(--ease-brand);
+}
+.ac-btn:hover {
+	filter: brightness(1.1);
+}
+.ac-btn:active {
+	transform: scale(0.98);
+}
+.ac-btn:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
+}
+.ac-btn:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+/* Main action: one per screen. */
+.ac-btn--primary {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}
+.ac-btn--hero {
+	background: var(--accent-hero);
+	color: var(--accent-hero-foreground);
+}
+/* On a colored background, or a confirm action in a panel. */
+.ac-btn--contrast {
+	background: var(--foreground);
+	color: var(--background);
+}
+.ac-btn--icon {
+	width: var(--control-height);
+	padding: 0;
+}
+.ac-btn--lg {
+	min-height: 48px;
+	padding: 0 1.5rem;
+}
+.ac-btn--block {
+	width: 100%;
+}
+
+/* ---------- Chips (tabs) ---------- */
+
+.ac-chip-tabs {
+	display: flex;
+	width: fit-content;
+	max-width: 100%;
+	/* overflow-x: auto lets grid/flex shrink the track to nothing; height is the chip + padding */
+	min-height: 2.5rem;
+	flex: none;
+	gap: 0.125rem;
+	padding: 0.25rem;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+.ac-chip {
+	display: inline-flex;
+	flex: none;
+	align-items: center;
+	gap: 0.375rem;
+	height: 2rem;
+	padding: 0 0.875rem;
+	border: 0;
+	border-radius: var(--radius-full);
+	background: transparent;
+	color: var(--muted-foreground);
+	font: 700 0.8125rem/1 var(--font-sans);
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		background 300ms var(--ease-brand),
+		color 300ms var(--ease-brand);
+}
+.ac-chip:hover {
+	color: var(--foreground);
+}
+.ac-chip[aria-selected='true'] {
+	background: var(--foreground);
+	color: var(--background);
+}
+.ac-chip__count {
+	font-size: 0.625rem;
+	font-variant-numeric: tabular-nums;
+	opacity: 0.65;
+}
+
+/* ---------- Pill navigation (floats at the bottom) ---------- */
+
+.ac-pill-nav {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.375rem;
+	border-radius: var(--radius-full);
+	background: color-mix(in srgb, var(--card) 95%, transparent);
+	box-shadow: var(--shadow-float);
+	backdrop-filter: blur(24px);
+}
+.ac-pill-nav__item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	height: 2.5rem;
+	min-width: 2.5rem;
+	justify-content: center;
+	padding: 0 0.75rem;
+	border-radius: var(--radius-full);
+	color: var(--muted-foreground);
+	font: 700 0.875rem/1 var(--font-sans);
+	text-decoration: none;
+	transition: color 300ms var(--ease-brand);
+}
+.ac-pill-nav__item:hover {
+	color: var(--foreground);
+}
+.ac-pill-nav__item[aria-current='page'] {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}
+
+/* ---------- Badges and dots ---------- */
+
+.ac-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	padding: 0.25rem 0.625rem;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	color: var(--foreground);
+	font: 700 0.6875rem/1.2 var(--font-sans);
+}
+.ac-badge--primary {
+	background: var(--primary-soft);
+	color: var(--primary);
+}
+.ac-badge--success {
+	background: var(--success-soft);
+	color: var(--success);
+}
+.ac-badge--warning {
+	background: var(--warning-soft);
+	color: var(--warning);
+}
+.ac-badge--info {
+	background: var(--info-soft);
+	color: var(--info);
+}
+.ac-badge--danger {
+	background: var(--destructive-soft);
+	color: var(--destructive);
+}
+/* Solid: on a cover (new, favorite). */
+.ac-badge--hero {
+	background: var(--accent-hero);
+	color: var(--accent-hero-foreground);
+}
+
+.ac-dot {
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: var(--radius-full);
+	background: currentColor;
+	flex: none;
+}
+
+/* ---------- Surfaces ---------- */
+
+.ac-card {
+	padding: 1.25rem;
+	border-radius: var(--radius-card);
+	background: var(--card);
+	box-shadow: var(--shadow-lift);
+}
+.ac-tile {
+	padding: 1rem;
+	border-radius: var(--radius-tile);
+	background: var(--surface);
+}
+.ac-sheet {
+	padding: 1.5rem;
+	border-radius: var(--radius-sheet);
+	background: var(--card);
+	box-shadow: var(--shadow-float);
+}
+
+/* ---------- Number block (AcerolaStatTile) ---------- */
+
+.ac-stat {
+	display: grid;
+	gap: 0.5rem;
+	padding: 1rem;
+	border-radius: var(--radius-tile);
+	background: var(--surface);
+	color: var(--foreground);
+}
+.ac-stat__value {
+	font-size: 1.875rem;
+	font-weight: 900;
+	line-height: 1;
+	letter-spacing: -0.025em;
+	font-variant-numeric: tabular-nums;
+}
+.ac-stat__hint {
+	font-size: 0.6875rem;
+	font-weight: 500;
+	opacity: 0.7;
+}
+.ac-stat--primary {
+	background: var(--primary-soft);
+	color: var(--primary);
+}
+.ac-stat--success {
+	background: var(--success-soft);
+	color: var(--success);
+}
+.ac-stat--warning {
+	background: var(--warning-soft);
+	color: var(--warning);
+}
+.ac-stat--info {
+	background: var(--info-soft);
+	color: var(--info);
+}
+.ac-stat--danger {
+	background: var(--destructive-soft);
+	color: var(--destructive);
+}
+
+/* ---------- Field ---------- */
+
+.ac-input {
+	width: 100%;
+	min-height: var(--control-height);
+	padding: 0 1.125rem;
+	border: 0;
+	border-radius: var(--radius-full);
+	background: var(--input);
+	color: var(--foreground);
+	font: 500 1rem/1 var(--font-sans);
+}
+.ac-input::placeholder {
+	color: var(--muted-foreground);
+}
+.ac-input:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
+}
+
+/* ---------- Progress ---------- */
+
+.ac-progress {
+	height: 0.25rem;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	overflow: hidden;
+}
+.ac-progress__bar {
+	height: 100%;
+	border-radius: inherit;
+	background: var(--primary);
+}
+
+/* ---------- Notice (toast) ---------- */
+
+.ac-toast {
+	display: flex;
+	align-items: center;
+	gap: 0.875rem;
+	padding: 0.875rem 1.125rem;
+	border-radius: var(--radius-card);
+	background: var(--card);
+	box-shadow: var(--shadow-float);
+}
+.ac-toast__title {
+	font-size: 0.875rem;
+	font-weight: 900;
+	letter-spacing: -0.025em;
+}
+.ac-toast__text {
+	font-size: 0.8125rem;
+	opacity: 0.8;
+}
+.ac-toast--success {
+	background: var(--success-soft);
+	color: var(--success);
+}
+.ac-toast--warning {
+	background: var(--warning-soft);
+	color: var(--warning);
+}
+.ac-toast--danger {
+	background: var(--destructive-soft);
+	color: var(--destructive);
+}
+
+/* ---------- Avatar (mascot) ---------- */
+
+.ac-avatar {
+	display: inline-grid;
+	place-items: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	overflow: hidden;
+	flex: none;
+}
+img.ac-avatar {
+	object-fit: cover;
+	object-position: 50% 28%;
+}
+
+/* ---------- Cover (AcerolaMediaCard) ---------- */
+
+.ac-cover {
+	position: relative;
+	aspect-ratio: 2 / 3;
+	border-radius: var(--radius-tile);
+	background: var(--surface);
+	box-shadow: var(--shadow-lift);
+	overflow: hidden;
+}
+.ac-cover > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.ac-cover__chip {
+	position: absolute;
+	top: 0.5rem;
+	left: 0.5rem;
+	padding: 0.125rem 0.5rem;
+	border-radius: var(--radius-full);
+	background: color-mix(in srgb, var(--scrim) 50%, transparent);
+	color: var(--on-scrim);
+	font: 700 0.625rem/1.5 var(--font-sans);
+	letter-spacing: 0.025em;
+	text-transform: uppercase;
+	backdrop-filter: blur(12px);
+}
+.ac-cover__shade {
+	position: absolute;
+	inset: 50% 0 0;
+	background: linear-gradient(
+		to top,
+		color-mix(in srgb, var(--scrim) 70%, transparent),
+		transparent
+	);
+}
+.ac-cover__progress {
+	position: absolute;
+	inset: auto 0.75rem 0.625rem;
+	height: 0.25rem;
+	border-radius: var(--radius-full);
+	background: color-mix(in srgb, var(--on-scrim) 20%, transparent);
+}
+.ac-cover__progress > div {
+	height: 100%;
+	border-radius: inherit;
+	background: var(--primary);
+}
+.ac-cover__title {
+	margin: 0.5rem 0.125rem 0;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	line-height: 1.25;
+}
+.ac-cover__subtitle {
+	margin: 0.125rem 0.125rem 0;
+	font-size: 0.6875rem;
+	color: var(--muted-foreground);
+}
+
+/* ---------- Empty state (AcerolaEmptyState) ---------- */
+
+.ac-empty {
+	display: grid;
+	justify-items: center;
+	gap: 0.5rem;
+	padding: 2.5rem 1rem;
+	text-align: center;
+}
+.ac-empty__icon {
+	display: grid;
+	place-items: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	margin-bottom: 0.25rem;
+	border-radius: var(--radius-full);
+	background: var(--surface);
+	color: var(--muted-foreground);
+}
+/* With the mascot instead of the icon (welcome, empty list). */
+.ac-empty__art {
+	width: 9rem;
+	margin-bottom: 0.25rem;
+}
+.ac-empty__title {
+	margin: 0;
+	font-weight: 900;
+	letter-spacing: -0.025em;
+}
+.ac-empty__text {
+	max-width: 16rem;
+	margin: 0;
+	font-size: 0.75rem;
+	color: var(--muted-foreground);
+}
+.ac-empty__action {
+	margin-top: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ac-btn,
+	.ac-chip,
+	.ac-pill-nav__item {
+		transition: none;
+	}
+}
