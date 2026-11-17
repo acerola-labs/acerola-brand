@@ -11,8 +11,11 @@ import { sveltekit } from '@sveltejs/kit/vite';
  */
 const assetsUrl = (process.env.ASSETS_URL ?? '').replace(/\/+$/, '');
 
+/** Public address of the site, for the absolute links in sitemap.xml and robots.txt. */
+const siteUrl = (process.env.SITE_URL || 'https://brand.acerola.app').replace(/\/+$/, '');
+
 export default defineConfig({
-	define: { __ASSETS_URL__: JSON.stringify(assetsUrl) },
+	define: { __ASSETS_URL__: JSON.stringify(assetsUrl), __SITE_URL__: JSON.stringify(siteUrl) },
 	plugins: [
 		tailwindcss(),
 		sveltekit({
