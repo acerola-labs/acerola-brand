@@ -1,0 +1,6 @@
+# Each folder handles its own clutter (the app has acerola-brand/.gitignore).
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example

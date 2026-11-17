@@ -1,0 +1,22 @@
+{
+	"project": "acerola-name",
+	"description": "Uma linha sobre o projeto.",
+	"commit": {
+		"scopes": {
+			"app": "app/ (troque pelo nome de cada pasta de app)",
+			"ci": ".github/",
+			"docs": "docs/ e os .md da raiz",
+			"claude": ".claude/ e CLAUDE.md",
+			"deps": "atualização de dependência"
+		}
+	},
+	"design": {
+		"scan": ["app/src"],
+		"extensions": [".svelte", ".ts", ".css", ".html"],
+		"exempt": ["/theme/", "/components/ui/", "/paraglide/", "\\.test\\.ts$", "\\.d\\.ts$"]
+	},
+	"i18n": {
+		"messages": ["app/messages"],
+		"baseLocale": "pt-br"
+	}
+}

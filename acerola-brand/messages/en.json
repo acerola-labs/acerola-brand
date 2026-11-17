@@ -1,0 +1,566 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"site": {
+		"title": "Acerola · design",
+		"description": "Design system and project standard for every Acerola app: colors, typography, components, icon, mascot and the kit to start a project.",
+		"footer": "acerola-sync standard · MPL-2.0 · fonts under SIL OFL 1.1"
+	},
+	"nav": {
+		"home": "Acerola, home",
+		"sections": "Sections",
+		"brand": "Brand",
+		"components": "Components",
+		"app": "App",
+		"site": "Site",
+		"standard": "Standard",
+		"theme": {
+			"light": "Use light theme",
+			"dark": "Use dark theme"
+		},
+		"language": "Ler em português"
+	},
+	"common": {
+		"copy": "Copy",
+		"copied": "Copied",
+		"files": "{count} files"
+	},
+	"code": {
+		"copy": "Copy code",
+		"tabs": "Files"
+	},
+	"swatch": {
+		"copy": "Copy {name}: {value}"
+	},
+	"hero": {
+		"scroll": "Scroll to explore",
+		"title": "Acerola design system",
+		"lead": "Colors, typography, shape, components, icon and mascot for every app, following the acerola-sync standard.",
+		"kit": "Download kit",
+		"components": "Components",
+		"stickers": {
+			"nerd": "Nerd stuff",
+			"p2p": "P2P",
+			"open": "Open source"
+		},
+		"tape": {
+			"content": {
+				"anime": "Anime",
+				"manga": "Manga",
+				"comics": "Comics",
+				"games": "Games",
+				"episode": "One more episode",
+				"chapter": "Just one more chapter",
+				"spoiler": "No spoilers",
+				"marathon": "Binge approved",
+				"list": "List always up to date",
+				"volume": "Volume 1 of 99"
+			},
+			"app": {
+				"serverless": "No server",
+				"p2p": "Peer to peer",
+				"rust": "Made in Rust",
+				"data": "Your data, your PC",
+				"qr": "Sync via QR",
+				"offline": "Offline first",
+				"fast": "Light and fast",
+				"open": "Open source",
+				"ads": "No ads",
+				"platforms": "Desktop and Android"
+			}
+		}
+	},
+	"home": {
+		"brand": {
+			"eyebrow": "Brand",
+			"title": "Icon and mascot",
+			"lead": "The acerola is the icon: app, favicon, tab and notification. The mascot is the personality: welcome, empty state, profile and notices. Use the files as they are."
+		},
+		"type": {
+			"eyebrow": "Typography",
+			"title": "DM Sans, big and heavy",
+			"lead": "The whole interface is DM Sans: strong text in font-black tracking-tight and numbers with tabular-nums. Noto Serif is for editorial titles and Titan One only for the brand.",
+			"practice": "Scale in practice",
+			"greeting": "Good afternoon, user",
+			"anime": "Anime",
+			"manga": "Manga",
+			"section": "Section title · text-lg font-black",
+			"body": "Body text in DM Sans: your anime and manga list in one place, synced with AniList without burning the quota.",
+			"number": "number · font-black tabular-nums"
+		},
+		"colors": {
+			"eyebrow": "Colors",
+			"title": "One palette",
+			"lead": "Showing the {theme} theme: switch it at the top. Click a color to copy its value. In the interface, tokens only: never a loose hex or a Tailwind color.",
+			"dark": "dark (Mocha)",
+			"light": "light (Latte)"
+		},
+		"shape": {
+			"eyebrow": "Shape",
+			"title": "Solid blocks, no borders",
+			"lead": "Each role has its radius. Lift shadow for what stays still, float for what floats. State shows in the background, never in a colored border.",
+			"lift": "shadow-lift · resting card",
+			"float": "shadow-float · floating things"
+		},
+		"components": {
+			"eyebrow": "Components",
+			"title": "The sync pieces",
+			"lead": "AcerolaChipTabs, AcerolaPillNav, AcerolaStatTile, AcerolaMediaCard and friends, also as plain CSS (.ac-*) for any stack.",
+			"all": "All components",
+			"screens": "App screens",
+			"site": "Site"
+		},
+		"icons": {
+			"eyebrow": "App icons",
+			"title": "Android, iOS and web",
+			"lead": "Generated for the three platforms: mipmaps and adaptive icon (with a monochrome layer) on Android, AppIcon on iOS and favicon, PWA and maskable on the web.",
+			"note": "The app icon is the acerola. The mascot pack exists for avatars and social media, not for the home screen."
+		},
+		"usage": {
+			"eyebrow": "Use",
+			"title": "Straight from the URL",
+			"lead": "Everything here is public and has a fixed address. The addresses below already point to this server.",
+			"css": "Plain CSS (any stack)",
+			"tailwind": "Tailwind v4 (Svelte, React…)",
+			"skill": "Skills in Claude Code",
+			"tokens": "Tokens as JSON (Compose, Rust, scripts)"
+		},
+		"downloads": {
+			"eyebrow": "Downloads",
+			"title": "Take it all",
+			"lead": "The zips are built on every release from the files on this page."
+		}
+	},
+	"demo": {
+		"watching": "Watching",
+		"completed": "Completed",
+		"planned": "Planned",
+		"paused": "Paused",
+		"reading": "Reading",
+		"synced": "Synced",
+		"pending": "Pending",
+		"episode": "New episode",
+		"failed": "Failed",
+		"sync": "Sync now",
+		"secondary": "Secondary",
+		"status": "Status",
+		"stats": {
+			"watching": "watching",
+			"completed": "completed",
+			"planned": "planned",
+			"paused": "paused"
+		}
+	},
+	"tokens": {
+		"groups": {
+			"accent": {
+				"title": "Accent",
+				"note": "One primary action per screen. Text on a solid color uses its -foreground."
+			},
+			"surface": {
+				"title": "Surfaces and text",
+				"note": "From the deepest to the highest. Solid blocks, no colored borders."
+			},
+			"state": {
+				"title": "State",
+				"note": "-soft is the background and the tone is the text: success badge = success-soft + success."
+			},
+			"chart": {
+				"title": "Charts",
+				"note": "One color per series, in this order."
+			}
+		},
+		"roles": {
+			"primary": "main action, active item",
+			"primaryForeground": "text on primary",
+			"primarySoft": "badge and highlight background",
+			"accentHero": "second accent",
+			"ring": "focus ring",
+			"crust": "the deepest",
+			"mantle": "sidebar, footer",
+			"background": "page background",
+			"card": "card",
+			"surface": "element inside a card, track",
+			"muted": "muted background",
+			"border": "neutral divider",
+			"foreground": "text",
+			"mutedForeground": "muted text",
+			"subtext": "caption",
+			"success": "done, live",
+			"successSoft": "success background",
+			"warning": "attention",
+			"warningSoft": "attention background",
+			"info": "information",
+			"infoSoft": "information background",
+			"destructive": "error, delete",
+			"destructiveSoft": "error background",
+			"chart": "series {n}"
+		}
+	},
+	"radii": {
+		"sheet": "panel or full sheet",
+		"card": "large card, toast, notice",
+		"tile": "number, list row, cover",
+		"inner": "field, small cover, icon",
+		"full": "button, chip, progress",
+		"pill": "pill"
+	},
+	"fonts": {
+		"sans": {
+			"role": "Everything",
+			"sample": "Anime Manga",
+			"rules": {
+				"use": "Text, buttons, lists, fields, titles and numbers",
+				"weight": "Strong text in font-black tracking-tight",
+				"numbers": "Numbers with tabular-nums"
+			}
+		},
+		"heading": {
+			"role": "Editorial",
+			"sample": "Acerola",
+			"rules": {
+				"use": "Editorial title: post, section cover, document",
+				"rare": "Used sparingly; the interface stays in DM Sans"
+			}
+		},
+		"display": {
+			"role": "Brand",
+			"sample": "ACEROLA",
+			"rules": {
+				"use": "Lettering, hero, splash, cover, tape and sticker",
+				"size": "Always uppercase and big (32px or more)",
+				"never": "Never in a button, tab, field, list or screen title"
+			}
+		}
+	},
+	"pieces": {
+		"icon": {
+			"title": "Icon (acerola)",
+			"use": "The app icon: favicon, tab, notification and logo in the bar."
+		},
+		"mascot": {
+			"title": "Mascot",
+			"use": "Welcome, empty state, profile, avatar and notices. Never as an app icon."
+		},
+		"plate": {
+			"title": "Icon with background",
+			"use": "Image only (README, post, cover). Never as an app icon: use the foreground for that."
+		},
+		"mono": {
+			"title": "Monochrome icon",
+			"use": "Android 13+ themed icon and single-color uses."
+		},
+		"alt": "Acerola mascot"
+	},
+	"packs": {
+		"icon": "Icon (acerola)",
+		"mascot": "Mascot"
+	},
+	"downloads": {
+		"brand": {
+			"title": "Full kit",
+			"text": "Everything on this page: icon, mascot, app icons, fonts, css, tokens and the skills."
+		},
+		"template": {
+			"title": "Project standard",
+			"text": "Kit for the root of a new repository: skills, hooks, lefthook, scripts, GitHub and the MPL-2.0 license."
+		},
+		"skills": {
+			"title": "Claude Code skills",
+			"text": "acerola-design, acerola-project and acerola-git: unzip into ~/.claude/skills/."
+		},
+		"logos": {
+			"title": "Icon and mascot",
+			"text": "Icon SVGs (normal, foreground, background, mono) and the mascot, plus the PNGs."
+		},
+		"icons": {
+			"title": "App icons",
+			"text": "Android (mipmaps and adaptive), iOS (AppIcon) and web (favicon, PWA)."
+		},
+		"css": {
+			"title": "CSS and tokens",
+			"text": "tokens.css, theme.css, tailwind.css, components.css and acerola.css, with the fonts."
+		},
+		"fonts": {
+			"title": "Fonts",
+			"text": "DM Sans, Noto Serif and Titan One as woff2, with their licenses (OFL)."
+		}
+	},
+	"examples": {
+		"eyebrow": "Examples",
+		"title": "Components in HTML",
+		"lead": "Each piece with the HTML that builds it. All it needs is acerola.css (or tailwind.css + components.css). Switch the theme at the top to see both modes.",
+		"items": {
+			"heading": {
+				"title": "Screen title",
+				"note": "A big, heavy word with the small line above. The types (Anime/Manga) are the title words themselves."
+			},
+			"buttons": {
+				"title": "Buttons (AcerolaButton)",
+				"note": "font-black pill. Primary on primary, secondary on surface, contrast on a colored background."
+			},
+			"tabs": {
+				"title": "Chips (AcerolaChipTabs)",
+				"note": "Track on surface; the active one inverts to foreground. Small count with tabular-nums."
+			},
+			"nav": {
+				"title": "Navigation (AcerolaPillNav)",
+				"note": "Floating pill with shadow-float; the active item becomes a primary pill with its name."
+			},
+			"stats": {
+				"title": "Numbers (AcerolaStatTile)",
+				"note": "rounded-tile block in the tone: soft background and tone text. Small uppercase label."
+			},
+			"covers": {
+				"title": "Cover (AcerolaMediaCard)",
+				"note": "2/3 aspect in rounded-tile; chip over scrim, shade at the bottom and progress in primary."
+			},
+			"badges": {
+				"title": "Badges",
+				"note": "Soft background with text in the same tone, or a dot. Never a colored border."
+			},
+			"field": {
+				"title": "Field",
+				"note": "Pill on input, no border; focus with the ring."
+			},
+			"toasts": {
+				"title": "Notices (toast)",
+				"note": "rounded-card, no border, background and text in the type tone. Success is green."
+			},
+			"empty": {
+				"title": "Empty state (AcerolaEmptyState)",
+				"note": "The mascot takes the round icon's place; font-black title, one sentence and one action."
+			}
+		}
+	},
+	"screens": {
+		"eyebrow": "Examples",
+		"title": "App screens",
+		"lead": "List, empty state, welcome and activity in the acerola-sync standard, built only with the tokens and the .ac-* classes. The mascot shows up in the empty state, the welcome and the notices.",
+		"nav": {
+			"main": "Main",
+			"list": "List",
+			"activity": "Activity",
+			"settings": "Settings"
+		},
+		"list": {
+			"label": "List screen",
+			"greeting": "Good afternoon, user",
+			"anime": "Anime",
+			"manga": "Manga",
+			"sample": "Sample title",
+			"other": "Another title",
+			"more": "One more",
+			"almost": "Almost there",
+			"episode": "Ep {current} of {total}",
+			"chapter": "Ch {current}"
+		},
+		"empty": {
+			"label": "Empty state screen",
+			"title": "Nothing planned yet",
+			"text": "Search for a title and save it for later.",
+			"action": "Search titles"
+		},
+		"welcome": {
+			"label": "Welcome screen",
+			"app": "Acerola Sync",
+			"title": "Welcome",
+			"text": "Your anime and manga list, synced with AniList.",
+			"login": "Sign in with AniList",
+			"later": "Not now"
+		},
+		"activity": {
+			"label": "Activity screen",
+			"eyebrow": "This week",
+			"title": "Activity",
+			"toast": "+1 episode marked"
+		}
+	},
+	"landing": {
+		"tag": "Sample site · fictional content",
+		"badge": "Anime · manga · comics · games",
+		"title": "Your nerd shelf",
+		"highlight": "everywhere",
+		"lead": "Apps for people who read, watch and play: fast, good-looking and without depending on a server.",
+		"apps": "See apps",
+		"how": "How it works",
+		"numbers": {
+			"label": "Numbers",
+			"apps": "apps in the workspace",
+			"chapters": "chapters read",
+			"servers": "servers in between",
+			"data": "your data"
+		},
+		"workspace": {
+			"eyebrow": "Apps",
+			"title": "The workspace",
+			"live": "Live",
+			"reader": "Comic and manga reader, desktop and Android.",
+			"sync": "Anime and manga tracking with AniList sync.",
+			"ticket": "Workspace tickets and tasks."
+		},
+		"steps": {
+			"eyebrow": "Process",
+			"title": "Four steps",
+			"install": {
+				"title": "Install",
+				"text": "Desktop or Android."
+			},
+			"connect": {
+				"title": "Connect",
+				"text": "Pair through the QR, peer to peer."
+			},
+			"read": {
+				"title": "Read",
+				"text": "The library comes along."
+			},
+			"track": {
+				"title": "Track",
+				"text": "Progress everywhere."
+			}
+		},
+		"cta": {
+			"title": "Let's read?",
+			"text": "Download, pair and pick up where you left off, on your phone or your PC.",
+			"action": "Download now"
+		}
+	},
+	"standard": {
+		"eyebrow": "Project standard",
+		"title": "Every project",
+		"highlight": "alike",
+		"lead": "Web, extension, desktop, Android or Rust: the same structure, the same git, the same hooks, the same i18n and the same design. This repository follows the standard and ships the kit to start any project.",
+		"download": "Download acerola-template.zip",
+		"skills": {
+			"eyebrow": "Claude Code",
+			"title": "Three skills, one standard",
+			"lead": "The agent loads the right skill before touching anything, and the hooks reject whatever escapes it.",
+			"design": {
+				"title": "How the app looks",
+				"text": "Tokens, typography, components, required states, accessibility, motion, copy, icon and mascot."
+			},
+			"project": {
+				"title": "How the project is built",
+				"text": "English for everything the user does not see, folder structure, layer patterns, i18n, license and new projects."
+			},
+			"git": {
+				"title": "How the code moves",
+				"text": "Commits, Git-Flow, branch guards, PRs, issues, Actions, Dependabot and releases."
+			}
+		},
+		"english": {
+			"eyebrow": "Language",
+			"title": "What the user does not see is in English",
+			"lead": "Folders, files, routes, variables, types, JSON and config keys, tables, columns, models, logs and code comments. Only what shows on screen is in Portuguese (through i18n); docs, skills, commits and PRs are for people and stay in Portuguese.",
+			"code": "Code",
+			"screen": "Screen"
+		},
+		"i18n": {
+			"eyebrow": "i18n",
+			"title": "Every project has i18n",
+			"lead": "Paraglide (inlang) with pt-br and en. Keys in English, nested by subject: one more level instead of _ or - to glue contexts together.",
+			"good": "Right",
+			"bad": "Wrong"
+		},
+		"structure": {
+			"eyebrow": "Structure",
+			"title": "The root belongs to the repository",
+			"lead": "Code lives in folders named after the commit scope. The root holds only what belongs to the whole repository.",
+			"layers": "Layer patterns",
+			"swap": "They are the standard, not law: swapping one is allowed with the reason written under \"Desvios do padrão\" in the project's CLAUDE.md."
+		},
+		"layers": {
+			"ui": {
+				"name": "Interface",
+				"pattern": "Dumb component (data / events / ui) and an orchestrating page"
+			},
+			"state": {
+				"name": "State",
+				"pattern": "use-*.svelte.ts hook or ViewModel; no loose global state"
+			},
+			"domain": {
+				"name": "Domain",
+				"pattern": "Pure service or use case, testable without I/O"
+			},
+			"data": {
+				"name": "Data",
+				"pattern": "Repository: SQL and external calls only there"
+			},
+			"platform": {
+				"name": "Platform",
+				"pattern": "Port in the domain, adapter in the infra (ports & adapters)"
+			},
+			"errors": {
+				"name": "Errors",
+				"pattern": "Typed, with a message that says what to do; never swallowed"
+			}
+		},
+		"git": {
+			"eyebrow": "Git",
+			"title": "[type](scope): Message",
+			"lead": "Portuguese, capital first letter, no period, up to 100 characters. One scope per commit. Merges follow the format too."
+		},
+		"branches": {
+			"main": "production · only the admin merges and pushes",
+			"develop": "integration · merges only, no direct commits",
+			"feature": "feature · branches off develop and goes back to it",
+			"bugfix": "fix · branches off develop and goes back to it",
+			"release": "version · goes to main and develop, tagged vX.Y.Z",
+			"hotfix": "urgent · branches off main, goes to main and develop"
+		},
+		"hooks": {
+			"eyebrow": "Hooks",
+			"title": "Lock what can be locked",
+			"lead": "lefthook in git (the same for Rust, Kotlin or Node) and Claude Code hooks in the agent.",
+			"message": "commit format, type and scope",
+			"commit": "guards main/develop, checks design and i18n",
+			"merge": "guards merges into main",
+			"push": "guards pushes to main",
+			"session": "design rules in the context",
+			"edit": "rejects a file that escaped design or i18n"
+		},
+		"github": {
+			"eyebrow": "GitHub",
+			"title": "Actions and repository",
+			"lead": "Issue and PR templates, CODEOWNERS per folder, and workflows with predictable names and triggers.",
+			"rules": {
+				"files": "One workflow per scope and job: <scope>-tests.yml, <scope>-release.yml, <scope>-deploy.yml",
+				"names": "Visible name Tests/<Scope>, Release/<Scope>, Deploy/<Scope>",
+				"triggers": "Tests on push and PR to develop and main, with the scope's paths; workflow_dispatch always",
+				"steps": "Steps: checkout → setup with cache → install → lint → types → design → i18n → tests → build → publish",
+				"secrets": "Secrets in secrets, addresses in vars; optional step with if: vars.X != \"\"",
+				"deps": "Weekly Dependabot on develop, grouped, prefix [chore](deps)"
+			}
+		},
+		"license": {
+			"eyebrow": "License",
+			"title": "MPL-2.0 on everything we own",
+			"lead": "Code, CSS, scripts, skills, docs, icon and mascot. Third-party work keeps its original license (fonts under SIL OFL 1.1).",
+			"header": "top of the file"
+		},
+		"start": {
+			"eyebrow": "New project",
+			"title": "Five steps",
+			"lead": "From the zip to the first commit on develop.",
+			"download": {
+				"title": "Download the kit",
+				"text": "acerola-template.zip at the root of the new repository."
+			},
+			"configure": {
+				"title": "Configure",
+				"text": "acerola.config.json: name, commit scopes, design and i18n folders."
+			},
+			"rules": {
+				"title": "Write the rules",
+				"text": "The project's CLAUDE.md and CODEOWNERS."
+			},
+			"git": {
+				"title": "Wire up git",
+				"text": "node scripts/git/setup-git.mjs: Git-Flow, template and lefthook."
+			},
+			"brand": {
+				"title": "Bring the brand",
+				"text": "theme.css + components.css, or the tokens.json theme on Android."
+			}
+		}
+	}
+}

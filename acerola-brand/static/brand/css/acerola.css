@@ -1,0 +1,32 @@
+/* Acerola as plain CSS in a single file: fonts, tokens, base and the .ac-* components.
+ *
+ *   <link rel="stylesheet" href="https://<wherever>/brand/css/acerola.css" />
+ *
+ * Tailwind v4 projects: use tailwind.css (tokens become classes) + components.css. */
+@import url('./fonts.css');
+@import url('./tokens.css');
+@import url('./components.css');
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
+}
+
+::selection {
+	background: var(--primary-soft);
+	color: var(--foreground);
+}

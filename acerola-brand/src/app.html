@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="dark">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="text-scale" content="scale" />
+		<script>
+			// Applies the stored theme before the first paint (no light → dark flash).
+			try {
+				const theme = localStorage.getItem('acerola-theme');
+				if (theme === 'light' || theme === 'dark')
+					document.documentElement.dataset.theme = theme;
+			} catch {
+				// no storage (private window, preview): stays dark, the brand default
+			}
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

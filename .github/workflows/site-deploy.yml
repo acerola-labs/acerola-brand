@@ -1,0 +1,86 @@
+# Publishes the brand book to GitHub Pages and the brand files to R2 on every push to main.
+#
+# In the repository:
+# - Settings → Pages → Source: "GitHub Actions".
+# - R2 (optional; without it the files ship only with the site on Pages):
+#   - Secrets: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY (R2 API token with write access).
+#   - Variables: R2_BUCKET (bucket name) and ASSETS_URL (public bucket address, e.g.
+#     https://brand.vinicius-gpl.com). With ASSETS_URL, the page's download links and snippets
+#     point to R2.
+name: Deploy/Site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # The app lives in acerola-brand/ (the repository root holds the workflow and the README).
+    defaults:
+      run:
+        working-directory: acerola-brand
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: acerola-brand/package-lock.json
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check
+      # The Acerola standard guards (scripts/ lives at the repository root).
+      - run: node ../scripts/design/check-design.mjs
+      - run: node ../scripts/i18n/check-i18n.mjs
+
+      # Builds the messages (Paraglide), the zips and tokens.json (scripts/kit.mjs) and the static
+      # site in build/.
+      - name: Build
+        env:
+          ASSETS_URL: ${{ vars.ASSETS_URL }}
+        run: npm run build
+
+      # Only the files go to R2 (brand/ and downloads/); the HTML stays on Pages.
+      - name: Upload files to R2
+        if: ${{ vars.R2_BUCKET != '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+          # R2 rejects the checksums newer AWS CLI versions send by default.
+          AWS_REQUEST_CHECKSUM_CALCULATION: WHEN_REQUIRED
+          AWS_RESPONSE_CHECKSUM_VALIDATION: WHEN_REQUIRED
+          ENDPOINT: https://${{ secrets.R2_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          BUCKET: ${{ vars.R2_BUCKET }}
+        run: |
+          aws s3 sync build/brand "s3://$BUCKET/brand" --endpoint-url "$ENDPOINT" --delete \
+            --cache-control "public, max-age=3600"
+          aws s3 sync build/downloads "s3://$BUCKET/downloads" --endpoint-url "$ENDPOINT" --delete \
+            --cache-control "public, max-age=300"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: acerola-brand/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
