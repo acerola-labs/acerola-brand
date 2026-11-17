@@ -21,7 +21,14 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter({ pages: 'build', assets: 'build', strict: true }),
+			// fallback: GitHub Pages serves 404.html for any missing address; it boots the app, which
+			// renders +error.svelte with the right status.
+			adapter: adapter({
+				pages: 'build',
+				assets: 'build',
+				fallback: '404.html',
+				strict: true
+			}),
 			// Relative paths in the generated HTML: the same build opens at /, at GitHub Pages'
 			// /<repo> or at a bucket root, without configuring a base.
 			paths: { relative: true },
