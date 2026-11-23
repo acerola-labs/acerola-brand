@@ -1,0 +1,126 @@
+# Komodo deploy of the brand book (acerola-brand/) on the hetzner server.
+# Names follow <server>_<app>; Swarm completes the services with _<service> (hetzner_acerola-brand_web).
+#
+#   Sync       applies this file (GitHub webhook on push to main).
+#   Repo       clone of main on the hetzner server; Build and Stack read from it.
+#   Build      acerola-brand/.config/docker/dockerfile built ON the hetzner server itself, with the
+#              repository root as context (scripts/kit.mjs zips files from outside the app).
+#              No registry: the image stays local as acerola-brand:<short commit>-hetzner.
+#   Stack      .komodo/acerola-brand.compose.yml on the hetzner Swarm; komodo.sh runs the deploy steps
+#              and route.sh publishes acerola-brand.caddy (brand.acerola.app) on the server's Caddy.
+#   Procedure  Pull -> Build -> Deploy, triggered by the GitHub webhook
+#              (/listener/github/procedure/hetzner_acerola-brand/main).
+#   Action     native Swarm rollback to the previous version.
+#
+# A static site: no secrets. The brand files still go to R2 (cdn.acerola.app) from the release
+# workflow (.github/workflows/acerola-brand-release.yml), and ASSETS_URL points the site there.
+
+[[resource_sync]]
+name = "acerola-brand"
+description = "Aplica o deploy do brand book do Acerola (.komodo/komodo.toml)"
+tags = ["env:hetzner", "app:acerola-brand"]
+[resource_sync.config]
+git_provider = "github.com"
+repo = "vinicius-gpl/acerola-brand"
+branch = "main"
+resource_path = [".komodo/komodo.toml"]
+delete = false
+
+[[repo]]
+name = "hetzner_acerola-brand"
+description = "Clone da main do acerola-brand no hetzner"
+tags = ["env:hetzner", "app:acerola-brand"]
+[repo.config]
+server = "hetzner"
+git_provider = "github.com"
+repo = "vinicius-gpl/acerola-brand"
+branch = "main"
+webhook_enabled = false
+links = ["https://github.com/vinicius-gpl/acerola-brand/tree/main/acerola-brand"]
+
+[[build]]
+name = "hetzner_acerola-brand"
+description = "Imagem do brand book do Acerola, construída no próprio hetzner (sem registry)"
+tags = ["env:hetzner", "app:acerola-brand"]
+[build.config]
+builder = "hetzner"
+linked_repo = "hetzner_acerola-brand"
+webhook_enabled = false
+build_path = "."
+dockerfile_path = "acerola-brand/.config/docker/dockerfile"
+image_name = "acerola-brand"
+image_tag = "hetzner"
+include_latest_tag = false
+include_version_tags = false
+include_commit_tag = true
+build_args = """
+ASSETS_URL=https://cdn.acerola.app
+SITE_URL=https://brand.acerola.app
+"""
+labels = """
+org.opencontainers.image.source=https://github.com/vinicius-gpl/acerola-brand
+acerola.app=acerola-brand
+acerola.server=hetzner
+"""
+links = ["https://brand.acerola.app"]
+
+[[stack]]
+name = "hetzner_acerola-brand"
+description = "Brand book do Acerola no Swarm do hetzner"
+tags = ["env:hetzner", "app:acerola-brand"]
+[stack.config]
+swarm = "hetzner"
+project_name = "hetzner_acerola-brand"
+linked_repo = "hetzner_acerola-brand"
+webhook_enabled = false
+run_directory = ".komodo"
+file_paths = ["acerola-brand.compose.yml"]
+extra_args = ["--resolve-image", "never", "--detach=false"]
+links = ["https://brand.acerola.app"]
+pre_deploy.command = "sh komodo.sh pre-deploy acerola-brand hetzner"
+compose_cmd_wrapper_include = ["config", "deploy"]
+compose_cmd_wrapper = "sh komodo.sh deploy acerola-brand hetzner [[COMPOSE_COMMAND]]"
+post_deploy.command = "sh komodo.sh post-deploy acerola-brand hetzner"
+
+[[procedure]]
+name = "hetzner_acerola-brand"
+description = "Publica a main do brand book do Acerola no hetzner: Pull, Build e Deploy"
+tags = ["env:hetzner", "app:acerola-brand"]
+[procedure.config]
+webhook_enabled = true
+
+[[procedure.config.stage]]
+name = "Pull"
+executions = [
+  { execution.type = "PullRepo", execution.params.repo = "hetzner_acerola-brand" },
+]
+
+[[procedure.config.stage]]
+name = "Build"
+executions = [
+  { execution.type = "RunBuild", execution.params.build = "hetzner_acerola-brand" },
+]
+
+[[procedure.config.stage]]
+name = "Deploy"
+executions = [
+  { execution.type = "DeployStack", execution.params.stack = "hetzner_acerola-brand" },
+]
+
+[[action]]
+name = "hetzner_acerola-brand_rollback"
+description = "Volta o brand book do Acerola para a versão anterior (rollback do Swarm)"
+tags = ["env:hetzner", "app:acerola-brand"]
+[action.config]
+webhook_enabled = false
+file_contents = '''
+const stack = 'hetzner_acerola-brand';
+await komodo.execute_server_terminal(
+  {
+    server: 'hetzner',
+    command: `docker service ls -q --filter label=com.docker.stack.namespace=${stack} | xargs -r -n1 docker service rollback --detach=false`,
+    init: { command: 'sh' },
+  },
+  { onLine: (line) => console.log(line), onFinish: (code) => console.log(`exit ${code}`) },
+);
+'''
