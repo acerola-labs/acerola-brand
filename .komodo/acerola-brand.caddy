@@ -1,0 +1,14 @@
+brand.acerola.app {
+    header {
+        Strict-Transport-Security "max-age=31536000;"
+    }
+
+    # Swarm service of the hetzner_acerola-brand stack, over the edge network. The app's own Caddy
+    # (acerola-brand/.config/docker/caddyfile) sets the cache and security headers.
+    reverse_proxy hetzner_acerola-brand_web:3000
+
+    log {
+        output file /data/acerola-brand-access.log
+        format json
+    }
+}

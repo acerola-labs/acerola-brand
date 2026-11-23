@@ -1,32 +1,28 @@
-# Publishes the brand book to GitHub Pages and the brand files to R2. Runs ONLY on a version tag
-# (vX.Y.Z, see the acerola-git skill), created on main by the release flow. A push to main or
-# develop publishes nothing; a pre-release tag (v1.2.0-rc.1) does not match and publishes nothing.
+# Checks the brand book and publishes the brand files to R2. Runs ONLY on a version tag (vX.Y.Z,
+# see the acerola-git skill), created on main by the release flow. A push to main or develop
+# publishes nothing here; a pre-release tag (v1.2.0-rc.1) does not match and publishes nothing.
+# The site itself runs on the hetzner server: Komodo deploys it on the push to main
+# (.komodo/komodo.toml), with ASSETS_URL pointing its downloads to these R2 files.
 #
 # The job refuses a tag that is not on main or that differs from acerola-brand/package.json.
 #
-# In the repository:
-# - Settings → Pages → Source: "GitHub Actions"; custom domain brand.acerola.app.
-# - Settings → Environments → github-pages → deployment tags: v*.
-# - R2 (optional; without it the files ship only with the site on Pages):
-#   - Secrets: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY (R2 API token with write access).
-#   - Variables: R2_BUCKET (acerola-cdn), ASSETS_URL (https://cdn.acerola.app) and SITE_URL
-#     (https://brand.acerola.app). With ASSETS_URL, the page's download links and snippets point to R2.
-#   - acerola-brand/.env.example lists them.
-name: Deploy/Site
+# In the repository (acerola-brand/.env.example lists them):
+# - Secrets: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY (R2 API token with write access).
+# - Variables: R2_BUCKET (acerola-cdn), ASSETS_URL (https://cdn.acerola.app) and SITE_URL
+#   (https://brand.acerola.app).
+name: Release/Brand files
 
 on:
   push:
     tags: ['v[0-9]+.[0-9]+.[0-9]+']
-  # Redeploys an existing tag: pick the tag in "Use workflow from".
+  # Republishes an existing tag: pick the tag in "Use workflow from".
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: release
   cancel-in-progress: true
 
 jobs:
@@ -79,7 +75,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
         run: npm run build
 
-      # Only the files go to R2 (brand/ and downloads/); the HTML stays on Pages.
+      # Only the files go to R2 (brand/ and downloads/); the HTML is served from the hetzner server.
       - name: Upload files to R2
         if: ${{ vars.R2_BUCKET != '' }}
         env:
@@ -96,17 +92,3 @@ jobs:
             --cache-control "public, max-age=3600"
           aws s3 sync build/downloads "s3://$BUCKET/downloads" --endpoint-url "$ENDPOINT" --delete \
             --cache-control "public, max-age=300"
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: acerola-brand/build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
