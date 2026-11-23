@@ -1,5 +1,12 @@
 # Versões
 
+## 0.3.0 · 23 nov 2026
+
+- **Brand book no hetzner:** o site sai do GitHub Pages e roda no servidor hetzner, publicado pelo
+  Komodo a cada push na `main` (`.komodo/`), com a imagem em `acerola-brand/.config/docker/`. Os
+  arquivos da marca continuam no R2 (`cdn.acerola.app`), enviados pelo `acerola-brand-release.yml`
+  na tag.
+
 ## 0.2.4 · 17 nov 2026
 
 - **README no padrão do reader e do sync:** capa 1920 × 1080 (logo, telas e a frase) no lugar do
