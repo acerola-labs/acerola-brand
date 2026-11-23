@@ -1,0 +1,15 @@
+# The brand book on http://localhost:8080, with the production image.
+#   docker compose -f acerola-brand/.config/docker/compose.yml up --build -d
+services:
+  acerola-brand:
+    build:
+      # The repository root (see the dockerfile).
+      context: ../../..
+      dockerfile: acerola-brand/.config/docker/dockerfile
+      args:
+        ASSETS_URL: ${ASSETS_URL:-}
+        SITE_URL: ${SITE_URL:-http://localhost:8080}
+    image: acerola-brand:latest
+    ports:
+      - '8080:3000'
+    restart: unless-stopped

@@ -1,0 +1,11 @@
+# Build context of acerola-brand/.config/docker/dockerfile is the repository root (scripts/kit.mjs
+# zips files from outside the app): leave out dependencies, local outputs and secrets.
+.git
+**/node_modules
+acerola-brand/.svelte-kit
+acerola-brand/build
+acerola-brand/src/lib/paraglide
+acerola-brand/src/lib/generated
+**/.env
+**/.env.*
+!**/.env.example

@@ -1,0 +1,30 @@
+# The brand book (acerola-brand/): static build with Node, served by Caddy (no Node in the final image).
+# Build context: the repository ROOT, because scripts/kit.mjs zips files from outside the app
+# (.claude/skills, template/, scripts/, lefthook.yml...); the root .dockerignore trims it.
+# In production the Komodo Build makes it on the hetzner server itself (.komodo/komodo.toml); locally:
+#   docker compose -f acerola-brand/.config/docker/compose.yml up --build
+
+# ---------- build ----------
+FROM node:22-alpine AS build
+WORKDIR /repo/acerola-brand
+
+# Dependencies first: the layer stays cached while the lockfile doesn't change.
+COPY acerola-brand/package.json acerola-brand/package-lock.json acerola-brand/.npmrc ./
+RUN npm ci --no-audit --no-fund
+
+COPY . /repo/
+
+# ASSETS_URL: where the brand files live (R2); empty ships them with the site. SITE_URL: the public
+# address, for sitemap.xml and robots.txt.
+ARG ASSETS_URL=""
+ARG SITE_URL="https://brand.acerola.app"
+ENV ASSETS_URL=${ASSETS_URL} SITE_URL=${SITE_URL}
+RUN npm run build
+
+# ---------- serve ----------
+FROM caddy:2-alpine
+COPY acerola-brand/.config/docker/caddyfile /etc/caddy/Caddyfile
+COPY --from=build /repo/acerola-brand/build /srv
+# Port 3000 inside the container, like every project.
+EXPOSE 3000
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://127.0.0.1:3000/ >/dev/null || exit 1
