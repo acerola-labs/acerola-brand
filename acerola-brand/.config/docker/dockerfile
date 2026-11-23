@@ -7,6 +7,8 @@
 # ---------- build ----------
 FROM node:22-alpine AS build
 WORKDIR /repo/acerola-brand
+# Node heap ceiling: the build runs on the same server as the apps and must not take its memory.
+ENV NODE_OPTIONS=--max-old-space-size=768
 
 # Dependencies first: the layer stays cached while the lockfile doesn't change.
 COPY acerola-brand/package.json acerola-brand/package-lock.json acerola-brand/.npmrc ./
