@@ -13,7 +13,7 @@ O ponto de partida de todo projeto Acerola (reader, sync, ticket, mangadex…):
 
 O próprio repositório segue o padrão que ele entrega.
 
-- **Site**: https://brand.acerola.app (GitHub Pages)
+- **Site**: https://brand.acerola.app (servidor hetzner, pelo Komodo)
 - **Arquivos**: https://cdn.acerola.app (R2: `/brand/...` e `/downloads/*.zip`)
 
 ## Galeria
@@ -73,6 +73,7 @@ Cada página tem os prints nos dois temas. Assets dos READMEs: [`docs/github/`](
 ```
 acerola-brand/
 ├── acerola-brand/            o site (SvelteKit 3 + Svelte 5 + TypeScript + Tailwind v4 + GSAP)
+│   ├── .config/docker/       imagem com Caddy (dockerfile, caddyfile, compose.yml)
 │   ├── static/brand/         o que se entrega: css, fontes, ícone, mascote, ícones de app
 │   ├── messages/             i18n: pt-br.json · en.json (Paraglide)
 │   ├── scripts/kit.mjs       gera os zips, o tokens.json e o manifesto antes do build
@@ -83,7 +84,8 @@ acerola-brand/
 │   ├── design/               check-design.mjs
 │   └── i18n/                 check-i18n.mjs
 ├── .claude/                  settings.json (hooks) · skills/acerola-{design,project,git}
-├── .github/                  site-deploy.yml · templates de issue e PR · CODEOWNERS · dependabot
+├── .komodo/                  deploy do site no hetzner pelo Komodo
+├── .github/                  acerola-brand-release.yml · templates de issue e PR · CODEOWNERS · dependabot
 ├── acerola.config.json       commit.scopes, design (pastas) e i18n (mensagens)
 └── CLAUDE.md · CONTRIBUTING.md · LICENSE · .gitmessage · .editorconfig · lefthook.yml
 ```
@@ -106,21 +108,26 @@ npm run dev                        # http://localhost:5173
 | `npm run build` | i18n + kit + site estático em `build/` |
 | `npm run check` / `npm run lint` | tipos, Prettier e ESLint |
 
-O build usa caminhos relativos: a pasta `build/` abre igual em `/`, em `/<repo>/` do GitHub Pages
-ou em qualquer outro endereço.
+O build usa caminhos relativos: a pasta `build/` abre igual em `/` ou em qualquer outro endereço.
 
 ## Publicação
 
-[`site-deploy.yml`](.github/workflows/site-deploy.yml) roda **só com tag de versão** `vX.Y.Z`,
-criada na `main` pelo fluxo de release (skill `acerola-git`): lint, check, design, i18n, build,
-envia `brand/` e `downloads/` para o R2 e publica o site no GitHub Pages. Push em branch não
-publica nada.
+- **Site**: roda no servidor hetzner, pelo Komodo ([`.komodo/`](.komodo/)). A cada push na `main`
+  (que só acontece no release), o webhook do GitHub dispara a Procedure `hetzner_acerola-brand`:
+  Pull, Build da imagem `acerola-brand/.config/docker/dockerfile` no próprio hetzner (contexto: a
+  raiz do repositório, porque o `kit.mjs` empacota arquivos de fora do app) e Deploy no Swarm. O
+  `route.sh` publica o `acerola-brand.caddy` (`brand.acerola.app`) no Caddy do servidor.
+- **Arquivos da marca**: [`acerola-brand-release.yml`](.github/workflows/acerola-brand-release.yml)
+  roda **só com tag de versão** `vX.Y.Z`, criada na `main` pelo fluxo de release (skill
+  `acerola-git`): lint, check, design, i18n, build e envio de `brand/` e `downloads/` para o R2.
+  Secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`; variables `R2_BUCKET`,
+  `ASSETS_URL` (`https://cdn.acerola.app`) e `SITE_URL`. No bucket, CORS liberado para `GET`,
+  porque os apps carregam fontes e CSS de lá.
 
-1. **Pages**: Settings → Pages → Source: **GitHub Actions**; domínio `brand.acerola.app`; no
-   ambiente `github-pages`, só tags `v*`.
-2. **R2** (opcional): secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`;
-   variables `R2_BUCKET`, `ASSETS_URL` (`https://cdn.acerola.app`) e `SITE_URL`. No bucket, CORS
-   liberado para `GET`, porque os apps carregam fontes e CSS de lá.
+Antes do primeiro deploy: o DNS de `brand` vira registro **A** para o IP do hetzner ("DNS only"),
+no lugar do CNAME do GitHub Pages, e o Pages do repositório é desligado. No Komodo, a Sync
+`acerola-brand` (branch `main`, arquivo `.komodo/komodo.toml`) e os dois webhooks dela e da
+Procedure `hetzner_acerola-brand`.
 
 ## Usar nos apps
 
