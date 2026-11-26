@@ -1,5 +1,15 @@
 # Versões
 
+## 0.4.0 · 25 nov 2026
+
+- **Marca v1.0.0:** ícone e mascote redesenhados. O ícone (`acerola-logo-foreground.svg`, `-sync`,
+  `-monochrome`, `favicon.svg` e os PNGs) sai do desenho novo, quadrado e com 72% de preenchimento;
+  a placa do `acerola-logo.svg` e o `acerola-logo-background.svg` passam a usar a cor de fundo dos
+  ícones de app (`#11111a`, o token `background`) no lugar do `#383B49`.
+- **Ícones de app para todas as plataformas:** `brand/icons/logo` e `brand/icons/mascot` ganham
+  macOS, tvOS, watchOS, Android TV e a arte da Play Store, além de Android, iOS e web.
+- **Docs:** capa do README e prints dos dois temas refeitos com a marca nova.
+
 ## 0.3.0 · 23 nov 2026
 
 - **Brand book no hetzner:** o site sai do GitHub Pages e roda no servidor hetzner, publicado pelo
