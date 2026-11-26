@@ -58,7 +58,8 @@ Raios `sheet` (32px), `card` (28px), `tile` (24px), `inner` (16px) e `full`. Dua
 
 ## Ícones de app
 
-Os ícones para Android, iOS e web, gerados do ícone foreground.
+Os ícones para Android e Android TV, iOS, macOS, tvOS, watchOS, web e Play Store, gerados do
+ícone foreground.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="github/ptbr/prints/dark/home-icons.webp">
