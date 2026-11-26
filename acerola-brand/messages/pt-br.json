@@ -111,8 +111,8 @@
 		},
 		"icons": {
 			"eyebrow": "Ícones de app",
-			"title": "Android, iOS e web",
-			"lead": "Gerados para as três plataformas: mipmaps e ícone adaptativo (com camada monocromática) no Android, AppIcon no iOS e favicon, PWA e maskable na web.",
+			"title": "Android, iOS, macOS, web e TV",
+			"lead": "Gerados para cada plataforma: mipmaps e ícone adaptativo (com camada monocromática) no Android, banner do Android TV, AppIcon no iOS, macOS, tvOS e watchOS, favicon, PWA e maskable na web, e a arte da Play Store.",
 			"note": "O ícone do app é a acerola. O pacote da mascote existe para avatar e redes, não para a tela inicial."
 		},
 		"usage": {
@@ -274,7 +274,7 @@
 		},
 		"icons": {
 			"title": "Ícones de app",
-			"text": "Android (mipmaps e adaptativo), iOS (AppIcon) e web (favicon, PWA)."
+			"text": "Android e Android TV, iOS, macOS, tvOS, watchOS, web (favicon, PWA) e Play Store."
 		},
 		"css": {
 			"title": "CSS e tokens",

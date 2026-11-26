@@ -147,18 +147,30 @@ export const PIECES: Piece[] = [
 	}
 ];
 
+/** Folders inside each icon pack, one per platform, in the order the page lists them. */
+const ICON_PLATFORMS = [
+	'android',
+	'androidtv',
+	'ios',
+	'macos',
+	'tvos',
+	'watchos',
+	'web',
+	'play-store'
+] as const;
+
 export const ICON_PACKS = [
 	{
 		title: m['packs.icon'],
 		base: '/brand/icons/logo',
 		preview: '/brand/icons/logo/web/icon-512.png',
-		platforms: ['android', 'ios', 'web']
+		platforms: ICON_PLATFORMS
 	},
 	{
 		title: m['packs.mascot'],
 		base: '/brand/icons/mascot',
 		preview: '/brand/icons/mascot/web/icon-512.png',
-		platforms: ['android', 'ios', 'web']
+		platforms: ICON_PLATFORMS
 	}
 ] as const;
 
