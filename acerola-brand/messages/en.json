@@ -111,8 +111,8 @@
 		},
 		"icons": {
 			"eyebrow": "App icons",
-			"title": "Android, iOS and web",
-			"lead": "Generated for the three platforms: mipmaps and adaptive icon (with a monochrome layer) on Android, AppIcon on iOS and favicon, PWA and maskable on the web.",
+			"title": "Android, iOS, macOS, web and TV",
+			"lead": "Generated for every platform: mipmaps and adaptive icon (with a monochrome layer) on Android, the Android TV banner, AppIcon on iOS, macOS, tvOS and watchOS, favicon, PWA and maskable on the web, and the Play Store artwork.",
 			"note": "The app icon is the acerola. The mascot pack exists for avatars and social media, not for the home screen."
 		},
 		"usage": {
@@ -274,7 +274,7 @@
 		},
 		"icons": {
 			"title": "App icons",
-			"text": "Android (mipmaps and adaptive), iOS (AppIcon) and web (favicon, PWA)."
+			"text": "Android and Android TV, iOS, macOS, tvOS, watchOS, web (favicon, PWA) and Play Store."
 		},
 		"css": {
 			"title": "CSS and tokens",
