@@ -1,15 +1,14 @@
 import { onMount } from 'svelte';
+import { THEME_COOKIE, writeCookie } from '#lib/utils/preference.util.ts';
 
 export type Theme = 'dark' | 'light';
-
-const STORAGE_KEY = 'acerola-theme';
 
 /** A single theme for the whole page: the top bar switches it, the color swatches read it. */
 let theme = $state<Theme>('dark');
 
 /**
- * Page theme (dark is the brand default). app.html already applies the stored theme before the
- * first paint; this only reads and switches it, saving the choice when storage allows.
+ * Page theme (dark is the brand default). app.html already applies the shared cookie before the
+ * first paint; this only reads and switches it, saving the choice for every Acerola site.
  */
 export function useTheme() {
 	onMount(() => {
@@ -19,11 +18,7 @@ export function useTheme() {
 	function set(next: Theme) {
 		theme = next;
 		document.documentElement.dataset.theme = next;
-		try {
-			localStorage.setItem(STORAGE_KEY, next);
-		} catch {
-			// no storage: the switch lasts for this visit only
-		}
+		writeCookie(THEME_COOKIE, next);
 	}
 
 	return {

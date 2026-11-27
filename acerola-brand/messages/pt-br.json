@@ -571,6 +571,10 @@
 			}
 		}
 	},
+	"llms": {
+		"pages": "Páginas",
+		"locales": "Idiomas"
+	},
 	"error": {
 		"eyebrow": "Erro {status}",
 		"eyebrowOffline": "Sem conexão",

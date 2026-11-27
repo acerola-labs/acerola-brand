@@ -2,6 +2,9 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { paraglide } from './paraglide.config.ts';
+
+const LOCALES = paraglide.urlPatterns[0].localized.map(([locale]) => locale);
 
 /**
  * Where the brand files (zips, svgs, fonts, css) live when they are not shipped with the site.
@@ -32,11 +35,23 @@ export default defineConfig({
 				fallback: '404.html',
 				strict: true
 			}),
-			// Relative paths in the generated HTML: the same build opens at /, at GitHub Pages'
-			// /<repo> or at a bucket root, without configuring a base.
-			paths: { relative: true },
-			// The navigation examples use illustrative anchors (#list, #settings) that do not exist.
-			prerender: { handleMissingId: 'warn' }
+			// Absolute paths: the locale prefix (/pt-br/…, /en/…) needs a fixed root, and paraglide's
+			// localizeHref() turns a relative path into a full URL.
+			paths: { relative: false },
+			prerender: {
+				// Each locale under its prefix, with its sitemap and llms.txt (paraglide.config.ts): the
+				// crawler only follows <a href>, and the switch between locales is a button.
+				entries: [
+					'*',
+					...LOCALES.flatMap((locale): `/${string}`[] => [
+						`/${locale}/`,
+						`/${locale}/sitemap.xml`,
+						`/${locale}/llms.txt`
+					])
+				],
+				// The navigation examples use illustrative anchors (#list, #settings) that do not exist.
+				handleMissingId: 'warn'
+			}
 		})
 	]
 });
