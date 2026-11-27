@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import AcerolaErrorScreen from '#lib/components/acerola-error-screen/acerola-error-screen.svelte';
 	import { m } from '#lib/paraglide/messages.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { errorKind } from '#lib/utils/error.util.ts';
 	import { fileUrl } from '#lib/utils/url.util.ts';
 
@@ -23,7 +24,7 @@
 			status: page.status,
 			kind,
 			mascot: fileUrl('/brand/mascot/acerola-mascot.svg'),
-			homeHref: resolve('/')
+			homeHref: localizeHref(resolve('/'))
 		}}
 		events={{ onRetry: () => location.reload(), onBack: () => history.back() }}
 		ui={{ page: true }}

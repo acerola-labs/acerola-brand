@@ -6,7 +6,7 @@
 	"type": "module",
 	"scripts": {
 		"kit": "node scripts/kit.mjs",
-		"i18n": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
+		"i18n": "node scripts/i18n.mjs",
 		"generate": "npm run i18n && npm run kit",
 		"dev": "npm run generate && vite dev",
 		"build": "npm run generate && vite build",

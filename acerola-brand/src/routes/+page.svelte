@@ -11,6 +11,7 @@
 	import { useCopy } from '#lib/hooks/use-copy/use-copy.svelte.ts';
 	import { useTheme } from '#lib/hooks/use-theme/use-theme.svelte.ts';
 	import { m } from '#lib/paraglide/messages.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { absoluteFileUrl, fileUrl } from '#lib/utils/url.util.ts';
 	import tokens from '../../static/brand/tokens.json';
 
@@ -96,7 +97,9 @@
 			href={fileUrl('/downloads/acerola-brand.zip')}
 			download>{m['hero.kit']()}</a
 		>
-		<a class="ac-btn ac-btn--lg" href={resolve('/examples')}>{m['hero.components']()}</a>
+		<a class="ac-btn ac-btn--lg" href={localizeHref(resolve('/examples'))}
+			>{m['hero.components']()}</a
+		>
 	</div>
 </AcerolaHero>
 
@@ -301,13 +304,15 @@
 				</div>
 			</div>
 			<div class="ac-row">
-				<a class="ac-btn ac-btn--contrast" href={resolve('/examples')}
+				<a class="ac-btn ac-btn--contrast" href={localizeHref(resolve('/examples'))}
 					>{m['home.components.all']()}</a
 				>
-				<a class="ac-btn" href={resolve('/examples/app')}
+				<a class="ac-btn" href={localizeHref(resolve('/examples/app'))}
 					>{m['home.components.screens']()}</a
 				>
-				<a class="ac-btn" href={resolve('/examples/site')}>{m['home.components.site']()}</a>
+				<a class="ac-btn" href={localizeHref(resolve('/examples/site'))}
+					>{m['home.components.site']()}</a
+				>
 			</div>
 		</div>
 	</div>
