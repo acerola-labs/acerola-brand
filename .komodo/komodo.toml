@@ -21,7 +21,7 @@ description = "Aplica o deploy do brand book do Acerola (.komodo/komodo.toml)"
 tags = ["env:hetzner", "app:acerola-brand"]
 [resource_sync.config]
 git_provider = "github.com"
-repo = "vinicius-gpl/acerola-brand"
+repo = "acerola-labs/acerola-brand"
 branch = "main"
 resource_path = [".komodo/komodo.toml"]
 delete = false
@@ -33,10 +33,10 @@ tags = ["env:hetzner", "app:acerola-brand"]
 [repo.config]
 server = "hetzner"
 git_provider = "github.com"
-repo = "vinicius-gpl/acerola-brand"
+repo = "acerola-labs/acerola-brand"
 branch = "main"
 webhook_enabled = false
-links = ["https://github.com/vinicius-gpl/acerola-brand/tree/main/acerola-brand"]
+links = ["https://github.com/acerola-labs/acerola-brand/tree/main/acerola-brand"]
 
 [[build]]
 name = "hetzner_acerola-brand"
@@ -58,7 +58,7 @@ ASSETS_URL=https://cdn.acerola.app
 SITE_URL=https://brand.acerola.app
 """
 labels = """
-org.opencontainers.image.source=https://github.com/vinicius-gpl/acerola-brand
+org.opencontainers.image.source=https://github.com/acerola-labs/acerola-brand
 acerola.app=acerola-brand
 acerola.server=hetzner
 """
