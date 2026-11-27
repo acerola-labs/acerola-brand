@@ -108,7 +108,10 @@ npm run dev                        # http://localhost:5173
 | `npm run build` | i18n + kit + site estático em `build/` |
 | `npm run check` / `npm run lint` | tipos, Prettier e ESLint |
 
-O build usa caminhos relativos: a pasta `build/` abre igual em `/` ou em qualquer outro endereço.
+Cada idioma fica no seu prefixo (`/pt-br/…`, `/en/…`), com o seu `sitemap.xml` e o seu `llms.txt`; na
+raiz ficam o `robots.txt` e os índices `/sitemap.xml` e `/llms.txt`. Endereço sem prefixo vai para o
+idioma do cookie `acerola-locale`, que vale para todo site em `acerola.app` (o tema também:
+`acerola-theme`). Por causa do prefixo, o build usa caminhos absolutos e é servido na raiz.
 
 ## Publicação
 
