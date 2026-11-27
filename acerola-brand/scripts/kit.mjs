@@ -136,10 +136,41 @@ async function errorScreenInSkill(prefix) {
 	return files;
 }
 
-/** Everything the design skill carries besides its SKILL.md. */
+/**
+ * Locale under a prefix and theme/locale cookies shared by every site (acerola-project 2.1,
+ * acerola-design 11.1): the brand book's own files ship inside the project skill as
+ * acerola-project/reference/locale/. The site is the source, as with the error screen.
+ */
+const LOCALE = [
+	'paraglide.config.ts',
+	'scripts/i18n.mjs',
+	'src/app.html',
+	'src/hooks.ts',
+	'src/hooks.client.ts',
+	'src/hooks.server.ts',
+	'src/lib/utils/preference.util.ts',
+	'src/routes/sitemap.xml/+server.ts',
+	'src/routes/llms.txt/+server.ts'
+];
+
+async function localeInSkill(prefix) {
+	const dir = posix(join(prefix, 'acerola-project', 'reference', 'locale'));
+	const files = {};
+	for (const path of LOCALE) {
+		// Routes keep their folder (sitemap.xml/+server.ts); the rest go flat.
+		const name = path.startsWith('src/routes/')
+			? path.slice('src/routes/'.length)
+			: path.split('/').pop();
+		files[`${dir}/${name}`] = [await readFile(join(root, path)), { mtime: MTIME }];
+	}
+	return files;
+}
+
+/** Everything the skills carry besides their SKILL.md. */
 const skillExtras = async (prefix) => ({
 	...tokensInSkill(prefix),
-	...(await errorScreenInSkill(prefix))
+	...(await errorScreenInSkill(prefix)),
+	...(await localeInSkill(prefix))
 });
 
 const template = async (prefix) => ({
