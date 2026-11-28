@@ -312,7 +312,7 @@
 			},
 			"linkCard": {
 				"title": "Card clicável",
-				"note": "O card inteiro é o link e mostra a ação parado, não só no hover: verbo e seta no tom da marca, num círculo primary-soft que fica cheio no hover e no foco. Sobe para shadow-float."
+				"note": "O card inteiro é o link e mostra a ação parado, não só no hover: verbo e seta no tom da marca, num círculo primary-soft que fica cheio no hover e no foco. Sobe para shadow-float. A ação principal da tela, uma só, usa .ac-card--primary."
 			},
 			"iconTiles": {
 				"title": "Ícone em bloco",

@@ -343,6 +343,26 @@
 	color: var(--primary-foreground);
 }
 
+/* The screen's single main action as a card: solid primary, with the content on its foreground
+ * (text over a solid color uses its -foreground) and the arrow in the contrast pair. */
+.ac-card--primary {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}
+.ac-card--primary .ac-card__action {
+	color: var(--primary-foreground);
+}
+.ac-card--primary .ac-card__go,
+.ac-card--primary:hover .ac-card__go,
+.ac-card--primary:focus-visible .ac-card__go {
+	background: var(--foreground);
+	color: var(--background);
+}
+.ac-card--primary .ac-icon-tile {
+	background: var(--primary-foreground);
+	color: var(--primary);
+}
+
 /* ---------- Icon block ---------- */
 
 /* A Lucide icon (20–24px) in a rounded-inner block. The tone says what it means, like
