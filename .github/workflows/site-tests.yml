@@ -1,0 +1,51 @@
+name: 'Tests/Site'
+
+on:
+  push:
+    branches: [develop, main]
+    paths:
+      - 'acerola-brand/**'
+      - '.claude/skills/**'
+      - 'scripts/**'
+      - 'template/**'
+      - 'acerola.config.json'
+      - '.github/workflows/site-tests.yml'
+  pull_request:
+    branches: [develop, main]
+    paths:
+      - 'acerola-brand/**'
+      - '.claude/skills/**'
+      - 'scripts/**'
+      - 'template/**'
+      - 'acerola.config.json'
+      - '.github/workflows/site-tests.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: site-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint, types, design, i18n and build
+    runs-on: ubuntu-latest
+    # The app lives in acerola-brand/; the kit it builds also packs .claude, scripts and template.
+    defaults:
+      run:
+        working-directory: acerola-brand
+    steps:
+      # acerola-labs only allows GitHub's own actions, pinned by SHA; Dependabot updates them.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: acerola-brand/package-lock.json
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run check
+      - run: node ../scripts/design/check-design.mjs
+      - run: node ../scripts/i18n/check-i18n.mjs
+      - run: npm run build

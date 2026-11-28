@@ -1,8 +1,7 @@
-# Checks the brand book and publishes the brand files to R2. Runs ONLY on a version tag (vX.Y.Z,
-# see the acerola-git skill), created on main by the release flow. A push to main or develop
-# publishes nothing here; a pre-release tag (v1.2.0-rc.1) does not match and publishes nothing.
-# The site itself runs on the hetzner server: Komodo deploys it on the push to main
-# (.komodo/komodo.toml), with ASSETS_URL pointing its downloads to these R2 files.
+# Checks the brand book, publishes the brand files to R2 (cdn.acerola.app) and creates the GitHub
+# release. Runs ONLY on a version tag (vX.Y.Z, acerola-git skill) made on main by the release flow;
+# a pre-release tag (v1.2.0-rc.1) does not match and publishes nothing. The site itself goes out
+# through site-deploy.yml (Komodo), from the same tag.
 #
 # The job refuses a tag that is not on main or that differs from acerola-brand/package.json.
 #
@@ -10,7 +9,7 @@
 # - Secrets: R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY (R2 API token with write access).
 # - Variables: R2_BUCKET (acerola-cdn), ASSETS_URL (https://cdn.acerola.app) and SITE_URL
 #   (https://brand.acerola.app).
-name: Release/Brand files
+name: 'Release/Site'
 
 on:
   push:
@@ -19,21 +18,22 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
-  group: release
-  cancel-in-progress: true
+  group: site-release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build:
+  release:
+    name: Check, build and publish the release
     runs-on: ubuntu-latest
     # The app lives in acerola-brand/ (the repository root holds the workflow and the README).
     defaults:
       run:
         working-directory: acerola-brand
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           # Full history: the next step checks that the tag is on main.
           fetch-depth: 0
@@ -41,7 +41,7 @@ jobs:
       - name: Check the version tag
         run: |
           if [ "$GITHUB_REF_TYPE" != "tag" ]; then
-            echo "::error::Deploy only runs from a version tag (vX.Y.Z), not from $GITHUB_REF_NAME."
+            echo "::error::Release only runs from a version tag (vX.Y.Z), not from $GITHUB_REF_NAME."
             exit 1
           fi
           if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
@@ -54,7 +54,7 @@ jobs:
             exit 1
           fi
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: npm
@@ -92,3 +92,15 @@ jobs:
             --cache-control "public, max-age=3600"
           aws s3 sync build/downloads "s3://$BUCKET/downloads" --endpoint-url "$ENDPOINT" --delete \
             --cache-control "public, max-age=300"
+
+      - name: Publish the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          node ../scripts/release/release-notes.mjs "$version" ../RELEASE.md > "$RUNNER_TEMP/notes.md"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release edit "$GITHUB_REF_NAME" --title "Versão $version" --notes-file "$RUNNER_TEMP/notes.md"
+          else
+            gh release create "$GITHUB_REF_NAME" --verify-tag --title "Versão $version" --notes-file "$RUNNER_TEMP/notes.md"
+          fi
