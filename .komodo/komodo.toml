@@ -8,8 +8,8 @@
 #              No registry: the image stays local as acerola-brand:<short commit>-hetzner.
 #   Stack      .komodo/acerola-brand.compose.yml on the hetzner Swarm; komodo.sh runs the deploy steps
 #              and route.sh publishes acerola-brand.caddy (brand.acerola.app) on the server's Caddy.
-#   Procedure  Pull -> Build -> Deploy, run by the version tag: <local>-deploy.yml calls it through
-#              the API (scripts/release/komodo-deploy.sh). No webhook: a push never publishes.
+#   Procedure  Pull -> Build -> Deploy, triggered by the GitHub webhook on push to main (the release
+#              merge): /listener/github/procedure/hetzner_acerola-brand/main.
 #   Action     native Swarm rollback to the previous version.
 #
 # A static site: no secrets. The brand files still go to R2 (cdn.acerola.app) from the release
@@ -89,8 +89,8 @@ name = "hetzner_acerola-brand"
 description = "Publica a main do brand book do Acerola no hetzner: Pull, Build e Deploy"
 tags = ["env:hetzner", "app:acerola-brand"]
 [procedure.config]
-# No webhook: only the version tag publishes, through <local>-deploy.yml (acerola-git).
-webhook_enabled = false
+# GitHub webhook on push to main: main only gets the release merge, so the release deploys.
+webhook_enabled = true
 
 [[procedure.config.stage]]
 name = "Pull"
