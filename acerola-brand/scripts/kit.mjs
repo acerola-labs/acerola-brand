@@ -34,6 +34,7 @@ const STANDARD_FILES = [
 	'scripts/git',
 	'scripts/design',
 	'scripts/i18n',
+	'scripts/release',
 	'.github/ISSUE_TEMPLATE',
 	'.github/PULL_REQUEST_TEMPLATE.md',
 	'lefthook.yml',
