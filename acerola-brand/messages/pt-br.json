@@ -310,6 +310,14 @@
 				"title": "Números (AcerolaStatTile)",
 				"note": "Bloco rounded-tile no tom: fundo soft e texto do tom. Rótulo pequeno em caixa alta."
 			},
+			"linkCard": {
+				"title": "Card clicável",
+				"note": "O card inteiro é o link e mostra a ação parado, não só no hover: verbo e seta no tom da marca, num círculo primary-soft que fica cheio no hover e no foco. Sobe para shadow-float."
+			},
+			"iconTiles": {
+				"title": "Ícone em bloco",
+				"note": "Ícone Lucide de 20 a 24px num rounded-inner. O tom diz o que significa: primary para baixar e usar, info para docs, success, warning e danger para estado. Sem significado, neutro."
+			},
 			"covers": {
 				"title": "Capa (AcerolaMediaCard)",
 				"note": "Aspecto 2/3 em rounded-tile; ficha sobre scrim, véu embaixo e progresso em primary."
