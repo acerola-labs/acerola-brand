@@ -1,5 +1,25 @@
 # Versões
 
+## 0.5.0 · 27 nov 2026
+
+- **Idioma e tema valem para todos os sites:** cada página existe em `/pt-br/…` e `/en/…`. Abrir
+  uma delas ou trocar o idioma grava o cookie `acerola-locale`, e o tema fica no `acerola-theme`.
+  Os dois valem para todo site em `acerola.app`: trocou aqui, troca no hub e nas docs. Endereço sem
+  prefixo vai para o idioma salvo.
+- **Sitemap e `llms.txt` por idioma**, com índice na raiz.
+- **Card clicável e ícone em bloco:** `.ac-card--link` mostra a ação parada (verbo e seta no tom da
+  marca), com a variante `.ac-card--primary` para a ação principal. `.ac-icon-tile` dá o tom pelo
+  significado. Os dois estão nos exemplos.
+- **Padrão:**
+  - idioma e cookies (`acerola-project` 2.1 e `acerola-design` 11.1);
+  - card clicável e nada de SVG escrito no código;
+  - tag com a mensagem da versão;
+  - actions só da GitHub e fixadas por SHA;
+  - deploy e release só pela tag;
+  - o kit leva o modelo de idioma (`reference/locale/`) e os scripts de release
+    (`scripts/release/`).
+- **Publicação pela tag:** testes em todo PR (`site-tests.yml`), release do GitHub e arquivos no R2
+  (`site-release.yml`) e deploy pelo Komodo (`site-deploy.yml`).
 ## 0.4.0 · 25 nov 2026
 
 - **Marca v1.0.0:** ícone e mascote redesenhados. O ícone (`acerola-logo-foreground.svg`, `-sync`,
