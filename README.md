@@ -85,7 +85,7 @@ acerola-brand/
 │   └── i18n/                 check-i18n.mjs
 ├── .claude/                  settings.json (hooks) · skills/acerola-{design,project,git}
 ├── .komodo/                  deploy do site no hetzner pelo Komodo
-├── .github/                  site-{tests,release,deploy}.yml · templates de issue e PR · CODEOWNERS · dependabot
+├── .github/                  site-{tests,release}.yml · templates de issue e PR · CODEOWNERS · dependabot
 ├── acerola.config.json       commit.scopes, design (pastas) e i18n (mensagens)
 └── CLAUDE.md · CONTRIBUTING.md · LICENSE · .gitmessage · .editorconfig · lefthook.yml
 ```
@@ -115,26 +115,24 @@ idioma do cookie `acerola-locale`, que vale para todo site em `acerola.app` (o t
 
 ## Publicação
 
-Só a tag de versão `vX.Y.Z` publica (skill `acerola-git`), criada na `main` pelo fluxo de release,
-com a mensagem da versão. Push em branch nunca publica.
+A `main` só recebe o merge da release (skill `acerola-git`), e é esse merge que publica. A tag
+`vX.Y.Z`, com a mensagem da versão, cria a release do GitHub. Push na `develop` nunca publica.
 
-- **Site** ([`site-deploy.yml`](.github/workflows/site-deploy.yml)): a tag roda a Procedure
-  `hetzner_acerola-brand` no Komodo ([`.komodo/`](.komodo/)) pela API
-  (`scripts/release/komodo-deploy.sh`): Pull, Build da imagem
-  `acerola-brand/.config/docker/dockerfile` no próprio hetzner (contexto: a raiz do repositório,
-  porque o `kit.mjs` empacota arquivos de fora do app) e Deploy no Swarm. O `route.sh` publica o
-  `acerola-brand.caddy` (`brand.acerola.app`) no Caddy do servidor. Precisa de `vars.KOMODO_URL` e
-  dos secrets `KOMODO_API_KEY` e `KOMODO_API_SECRET`.
-- **Arquivos da marca e release** ([`site-release.yml`](.github/workflows/site-release.yml)):
-  lint, check, design, i18n, build, envio de `brand/` e `downloads/` para o R2 e a release do GitHub
-  com as notas do `RELEASE.md`. Secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`,
+- **Site:** o push na `main` dispara o webhook da Procedure `hetzner_acerola-brand` no Komodo
+  ([`.komodo/`](.komodo/)): Pull, Build da imagem `acerola-brand/.config/docker/dockerfile` no
+  próprio hetzner (contexto: a raiz do repositório, porque o `kit.mjs` empacota arquivos de fora do
+  app) e Deploy no Swarm. O `route.sh` publica o `acerola-brand.caddy` (`brand.acerola.app`) no Caddy
+  do servidor.
+- **Arquivos da marca e release** ([`site-release.yml`](.github/workflows/site-release.yml)), pela
+  tag: lint, check, design, i18n, build, envio de `brand/` e `downloads/` para o R2 e a release do
+  GitHub com as notas do `RELEASE.md`. Secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`,
   `R2_SECRET_ACCESS_KEY`; variables `R2_BUCKET`, `ASSETS_URL` (`https://cdn.acerola.app`) e
   `SITE_URL`. No bucket, CORS liberado para `GET`, porque os apps carregam fontes e CSS de lá.
 - **Testes** ([`site-tests.yml`](.github/workflows/site-tests.yml)): em todo PR e push na
   `develop` e na `main`.
 
-No Komodo, a Sync `acerola-brand` (branch `main`, arquivo `.komodo/komodo.toml`, webhook só dela:
-aplica a configuração, não publica). A Procedure fica sem webhook.
+No GitHub, dois webhooks para o Komodo (JSON, `push`, segredo de webhook do Komodo): o da Sync
+`acerola-brand`, que aplica o `.komodo/komodo.toml`, e o da Procedure `hetzner_acerola-brand`.
 
 ## Usar nos apps
 
