@@ -1,5 +1,11 @@
 # Versões
 
+## 0.5.1 · 28 nov 2026
+
+- **Deploy pelo webhook da Procedure:** o merge da release na `main` publica o site pelo Komodo; a
+  tag cria a release do GitHub. Sai o deploy pela API do Komodo (`site-deploy.yml` e
+  `komodo-deploy.sh`), do padrão e do kit.
+
 ## 0.5.0 · 27 nov 2026
 
 - **Idioma e tema valem para todos os sites:** cada página existe em `/pt-br/…` e `/en/…`. Abrir
