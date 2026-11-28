@@ -3,19 +3,20 @@
 	import './layout.css';
 	import AcerolaTopbar from '#lib/components/acerola-topbar/acerola-topbar.svelte';
 	import { page } from '$app/state';
-	import { useLocale } from '#lib/hooks/use-locale/use-locale.svelte.ts';
 	import { usePageTransition } from '#lib/hooks/use-page-transition/use-page-transition.svelte.ts';
 	import { useSmoothScroll } from '#lib/hooks/use-smooth-scroll/use-smooth-scroll.svelte.ts';
 	import { m } from '#lib/paraglide/messages.js';
+	import { deLocalizeHref, getLocale, localizeHref, locales } from '#lib/paraglide/runtime.js';
 	import { fileUrl } from '#lib/utils/url.util.ts';
 	import tokens from '../../static/brand/tokens.json';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
 
-	// Applies the stored/browser locale after mount (the prerendered HTML is in the base locale).
-	useLocale();
 	useSmoothScroll();
+
+	/** The same page in every locale, for hreflang; the path with no prefix follows the cookie. */
+	const path = $derived(deLocalizeHref(page.url.pathname));
 
 	let main = $state<HTMLElement>();
 	usePageTransition(() => main);
@@ -32,6 +33,15 @@
 	<meta name="description" content={m['site.description']()} />
 	<!-- The browser needs a literal color: it comes from the background token, no hex in code. -->
 	<meta name="theme-color" content={tokens.dark.background} />
+	{#each locales as locale (locale)}
+		<link
+			rel="alternate"
+			hreflang={locale}
+			href="{__SITE_URL__}{localizeHref(path, { locale })}"
+		/>
+	{/each}
+	<link rel="alternate" hreflang="x-default" href="{__SITE_URL__}{path}" />
+	<meta property="og:locale" content={getLocale() === 'en' ? 'en_US' : 'pt_BR'} />
 	<meta property="og:type" content="website" />
 	<meta property="og:site_name" content="Acerola" />
 	<meta property="og:title" content={m['site.title']()} />

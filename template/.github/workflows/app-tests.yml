@@ -1,6 +1,6 @@
 # Acerola standard test workflow template. Copy it as <scope>-tests.yml, replace "app" with the
-# scope and the setup block with the language (Node below; Rust: dtolnay/rust-toolchain + cargo;
-# Android: actions/setup-java + gradle).
+# scope and the setup block with the language (Node below; Rust: rustup from the runner + cargo;
+# Android: actions/setup-java + gradle). Only GitHub's own actions, pinned by SHA (acerola-git).
 name: 'Tests/App'
 
 on:
@@ -9,12 +9,14 @@ on:
     paths:
       - 'app/**'
       - 'scripts/design/**'
+      - 'scripts/i18n/**'
       - '.github/workflows/app-tests.yml'
   pull_request:
     branches: [develop, main]
     paths:
       - 'app/**'
       - 'scripts/design/**'
+      - 'scripts/i18n/**'
       - '.github/workflows/app-tests.yml'
   workflow_dispatch:
 
@@ -24,15 +26,15 @@ concurrency:
 
 jobs:
   test:
-    name: Lint, tipos, design e testes
+    name: Lint, types, design, i18n, tests and build
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: app
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: npm

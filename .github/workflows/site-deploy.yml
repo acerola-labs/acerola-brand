@@ -1,0 +1,54 @@
+# Deploys the brand book (brand.acerola.app) on the hetzner server. Runs ONLY on a version tag
+# (vX.Y.Z, acerola-git skill): checks that the tag is on main and matches the manifest, then runs
+# the Komodo Procedure hetzner_acerola-brand (Pull, Build, Deploy, .komodo/komodo.toml) and waits
+# for it. The Procedure has no webhook: a push to a branch never publishes.
+#
+# In the repository: vars.KOMODO_URL and the secrets KOMODO_API_KEY and KOMODO_API_SECRET (a
+# Komodo API key for the CI). Without KOMODO_URL the deploy step is skipped.
+name: 'Deploy/Site'
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+  # Redeploys an existing tag: pick the tag in "Use workflow from".
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy with Komodo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+
+      - name: Check the version tag
+        run: |
+          if [ "$GITHUB_REF_TYPE" != "tag" ]; then
+            echo "::error::Deploy only runs from a version tag (vX.Y.Z), not from $GITHUB_REF_NAME."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag $GITHUB_REF_NAME is not on main. Tags come from the release flow."
+            exit 1
+          fi
+          version=$(node -p "require('./acerola-brand/package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME differs from acerola-brand/package.json version $version."
+            exit 1
+          fi
+
+      - name: Run the Komodo Procedure
+        if: ${{ vars.KOMODO_URL != '' }}
+        env:
+          KOMODO_URL: ${{ vars.KOMODO_URL }}
+          KOMODO_API_KEY: ${{ secrets.KOMODO_API_KEY }}
+          KOMODO_API_SECRET: ${{ secrets.KOMODO_API_SECRET }}
+        run: sh scripts/release/komodo-deploy.sh hetzner_acerola-brand

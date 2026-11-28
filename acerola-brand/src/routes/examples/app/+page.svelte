@@ -3,6 +3,7 @@
 	import AcerolaErrorScreen from '#lib/components/acerola-error-screen/acerola-error-screen.svelte';
 	import AcerolaSection from '#lib/components/acerola-section/acerola-section.svelte';
 	import { m } from '#lib/paraglide/messages.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { errorKind } from '#lib/utils/error.util.ts';
 	import { fileUrl } from '#lib/utils/url.util.ts';
 
@@ -273,7 +274,7 @@
 							status: errorSample.status,
 							kind: errorKind(errorSample.status, errorSample.online),
 							mascot,
-							homeHref: resolve('/')
+							homeHref: localizeHref(resolve('/'))
 						}}
 						ui={{ heading: 'h3' }}
 					/>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ArrowRight, BookOpen, Check, Code, createIcons, Download } from 'lucide';
 	import { onMount } from 'svelte';
 	import AcerolaCode from '#lib/components/acerola-code/acerola-code.svelte';
 	import AcerolaSection from '#lib/components/acerola-section/acerola-section.svelte';
@@ -9,7 +10,12 @@
 	/** The rendered example uses the relative path; the code shows this server's full address. */
 	const renderBase = fileUrl('/brand');
 	let codeBase = $state('/brand');
-	onMount(() => (codeBase = absoluteFileUrl('/brand')));
+	onMount(() => {
+		codeBase = absoluteFileUrl('/brand');
+		// The examples are plain HTML: Lucide turns each <i data-lucide> into its icon, as it would
+		// on any page that copies them.
+		createIcons({ icons: { ArrowRight, BookOpen, Check, Code, Download } });
+	});
 </script>
 
 <svelte:head>

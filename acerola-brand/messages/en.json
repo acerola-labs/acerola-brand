@@ -310,6 +310,14 @@
 				"title": "Numbers (AcerolaStatTile)",
 				"note": "rounded-tile block in the tone: soft background and tone text. Small uppercase label."
 			},
+			"linkCard": {
+				"title": "Clickable card",
+				"note": "The whole card is the link and shows the action at rest, not only on hover: a verb and an arrow in the brand color, in a primary-soft circle that fills on hover and focus. It lifts to shadow-float. The screen's single main action uses .ac-card--primary."
+			},
+			"iconTiles": {
+				"title": "Icon block",
+				"note": "A 20–24px Lucide icon in a rounded-inner block. The tone says what it means: primary to get and use, info for docs, success, warning and danger for state. With no meaning, neutral."
+			},
 			"covers": {
 				"title": "Cover (AcerolaMediaCard)",
 				"note": "2/3 aspect in rounded-tile; chip over scrim, shade at the bottom and progress in primary."
@@ -570,6 +578,10 @@
 				"text": "theme.css + components.css, or the tokens.json theme on Android."
 			}
 		}
+	},
+	"llms": {
+		"pages": "Pages",
+		"locales": "Languages"
 	},
 	"error": {
 		"eyebrow": "Error {status}",

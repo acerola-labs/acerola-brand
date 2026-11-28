@@ -8,8 +8,9 @@
 	@immutable path /_app/immutable/*
 	header @immutable Cache-Control "public, max-age=31536000, immutable"
 
-	# HTML, sitemap and robots always revalidated, so a new deploy shows up right away.
-	@fresh path / /index.html /sitemap.xml /robots.txt
+	# HTML, sitemaps, llms.txt and robots always revalidated, so a new deploy shows up right away.
+	# Each locale lives under its prefix (/pt-br/…, /en/…) with its own sitemap.xml and llms.txt.
+	@fresh path / /index.html /sitemap.xml /robots.txt /llms.txt /pt-br/* /en/*
 	header @fresh Cache-Control "public, max-age=0, must-revalidate"
 
 	header {

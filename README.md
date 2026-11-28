@@ -85,7 +85,7 @@ acerola-brand/
 │   └── i18n/                 check-i18n.mjs
 ├── .claude/                  settings.json (hooks) · skills/acerola-{design,project,git}
 ├── .komodo/                  deploy do site no hetzner pelo Komodo
-├── .github/                  acerola-brand-release.yml · templates de issue e PR · CODEOWNERS · dependabot
+├── .github/                  site-{tests,release,deploy}.yml · templates de issue e PR · CODEOWNERS · dependabot
 ├── acerola.config.json       commit.scopes, design (pastas) e i18n (mensagens)
 └── CLAUDE.md · CONTRIBUTING.md · LICENSE · .gitmessage · .editorconfig · lefthook.yml
 ```
@@ -108,26 +108,33 @@ npm run dev                        # http://localhost:5173
 | `npm run build` | i18n + kit + site estático em `build/` |
 | `npm run check` / `npm run lint` | tipos, Prettier e ESLint |
 
-O build usa caminhos relativos: a pasta `build/` abre igual em `/` ou em qualquer outro endereço.
+Cada idioma fica no seu prefixo (`/pt-br/…`, `/en/…`), com o seu `sitemap.xml` e o seu `llms.txt`; na
+raiz ficam o `robots.txt` e os índices `/sitemap.xml` e `/llms.txt`. Endereço sem prefixo vai para o
+idioma do cookie `acerola-locale`, que vale para todo site em `acerola.app` (o tema também:
+`acerola-theme`). Por causa do prefixo, o build usa caminhos absolutos e é servido na raiz.
 
 ## Publicação
 
-- **Site**: roda no servidor hetzner, pelo Komodo ([`.komodo/`](.komodo/)). A cada push na `main`
-  (que só acontece no release), o webhook do GitHub dispara a Procedure `hetzner_acerola-brand`:
-  Pull, Build da imagem `acerola-brand/.config/docker/dockerfile` no próprio hetzner (contexto: a
-  raiz do repositório, porque o `kit.mjs` empacota arquivos de fora do app) e Deploy no Swarm. O
-  `route.sh` publica o `acerola-brand.caddy` (`brand.acerola.app`) no Caddy do servidor.
-- **Arquivos da marca**: [`acerola-brand-release.yml`](.github/workflows/acerola-brand-release.yml)
-  roda **só com tag de versão** `vX.Y.Z`, criada na `main` pelo fluxo de release (skill
-  `acerola-git`): lint, check, design, i18n, build e envio de `brand/` e `downloads/` para o R2.
-  Secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`; variables `R2_BUCKET`,
-  `ASSETS_URL` (`https://cdn.acerola.app`) e `SITE_URL`. No bucket, CORS liberado para `GET`,
-  porque os apps carregam fontes e CSS de lá.
+Só a tag de versão `vX.Y.Z` publica (skill `acerola-git`), criada na `main` pelo fluxo de release,
+com a mensagem da versão. Push em branch nunca publica.
 
-Antes do primeiro deploy: o DNS de `brand` vira registro **A** para o IP do hetzner ("DNS only"),
-no lugar do CNAME do GitHub Pages, e o Pages do repositório é desligado. No Komodo, a Sync
-`acerola-brand` (branch `main`, arquivo `.komodo/komodo.toml`) e os dois webhooks dela e da
-Procedure `hetzner_acerola-brand`.
+- **Site** ([`site-deploy.yml`](.github/workflows/site-deploy.yml)): a tag roda a Procedure
+  `hetzner_acerola-brand` no Komodo ([`.komodo/`](.komodo/)) pela API
+  (`scripts/release/komodo-deploy.sh`): Pull, Build da imagem
+  `acerola-brand/.config/docker/dockerfile` no próprio hetzner (contexto: a raiz do repositório,
+  porque o `kit.mjs` empacota arquivos de fora do app) e Deploy no Swarm. O `route.sh` publica o
+  `acerola-brand.caddy` (`brand.acerola.app`) no Caddy do servidor. Precisa de `vars.KOMODO_URL` e
+  dos secrets `KOMODO_API_KEY` e `KOMODO_API_SECRET`.
+- **Arquivos da marca e release** ([`site-release.yml`](.github/workflows/site-release.yml)):
+  lint, check, design, i18n, build, envio de `brand/` e `downloads/` para o R2 e a release do GitHub
+  com as notas do `RELEASE.md`. Secrets `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`,
+  `R2_SECRET_ACCESS_KEY`; variables `R2_BUCKET`, `ASSETS_URL` (`https://cdn.acerola.app`) e
+  `SITE_URL`. No bucket, CORS liberado para `GET`, porque os apps carregam fontes e CSS de lá.
+- **Testes** ([`site-tests.yml`](.github/workflows/site-tests.yml)): em todo PR e push na
+  `develop` e na `main`.
+
+No Komodo, a Sync `acerola-brand` (branch `main`, arquivo `.komodo/komodo.toml`, webhook só dela:
+aplica a configuração, não publica). A Procedure fica sem webhook.
 
 ## Usar nos apps
 
