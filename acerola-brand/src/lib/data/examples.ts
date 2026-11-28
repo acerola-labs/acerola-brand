@@ -14,6 +14,21 @@ export type Example = { id: string; title: Message; note: Message; html: string 
 
 export const BRAND_DIR = '%BRAND%';
 
+/**
+ * Lucide in plain HTML: <i data-lucide="name"> becomes the icon when lucide's createIcons() runs
+ * (the examples page does it). The color comes from the parent's `color`, the size from the
+ * attributes. In Svelte, use the component (@lucide/svelte) with its props instead.
+ */
+const icon = (name: string) =>
+	`<i data-lucide="${name}" width="20" height="20" aria-hidden="true"></i>`;
+const ICON = {
+	arrow: icon('arrow-right'),
+	book: icon('book-open'),
+	download: icon('download'),
+	check: icon('check'),
+	code: icon('code')
+};
+
 export const EXAMPLES: Example[] = [
 	{
 		id: 'heading',
@@ -66,6 +81,30 @@ export const EXAMPLES: Example[] = [
   <div class="ac-stat ac-stat--success"><span class="ac-label">completos</span><span class="ac-stat__value">12</span></div>
   <div class="ac-stat ac-stat--warning"><span class="ac-label">pausados</span><span class="ac-stat__value">1</span></div>
   <div class="ac-stat"><span class="ac-label">planejados</span><span class="ac-stat__value">3</span><span class="ac-stat__hint">na fila</span></div>
+</div>`
+	},
+	{
+		id: 'linkCard',
+		title: m['examples.items.linkCard.title'],
+		note: m['examples.items.linkCard.note'],
+		html: `<a class="ac-card ac-card--link" href="#link-card">
+  <span class="ac-icon-tile ac-icon-tile--primary">${ICON.book}</span>
+  <span class="ac-stack">
+    <span class="ac-label">Desktop e Android</span>
+    <span class="ac-section-title">Acerola Reader</span>
+  </span>
+  <span class="ac-card__action">Ver o app <span class="ac-card__go">${ICON.arrow}</span></span>
+</a>`
+	},
+	{
+		id: 'iconTiles',
+		title: m['examples.items.iconTiles.title'],
+		note: m['examples.items.iconTiles.note'],
+		html: `<div class="ac-row">
+  <span class="ac-icon-tile ac-icon-tile--primary" title="Baixar">${ICON.download}</span>
+  <span class="ac-icon-tile ac-icon-tile--info" title="Documentação">${ICON.book}</span>
+  <span class="ac-icon-tile ac-icon-tile--success" title="Sincronizado">${ICON.check}</span>
+  <span class="ac-icon-tile" title="Código">${ICON.code}</span>
 </div>`
 	},
 	{
