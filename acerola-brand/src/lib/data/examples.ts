@@ -87,14 +87,18 @@ export const EXAMPLES: Example[] = [
 		id: 'linkCard',
 		title: m['examples.items.linkCard.title'],
 		note: m['examples.items.linkCard.note'],
-		html: `<a class="ac-card ac-card--link" href="#link-card">
-  <span class="ac-icon-tile ac-icon-tile--primary">${ICON.book}</span>
-  <span class="ac-stack">
-    <span class="ac-label">Desktop e Android</span>
-    <span class="ac-section-title">Acerola Reader</span>
-  </span>
-  <span class="ac-card__action">Ver o app <span class="ac-card__go">${ICON.arrow}</span></span>
-</a>`
+		html: `<div class="ac-grid">
+  <a class="ac-card ac-card--link ac-card--primary" href="#link-card">
+    <span class="ac-icon-tile">${ICON.download}</span>
+    <span class="ac-section-title">Android (APK)</span>
+    <span class="ac-card__action">Baixar o APK <span class="ac-card__go">${ICON.arrow}</span></span>
+  </a>
+  <a class="ac-card ac-card--link" href="#link-card">
+    <span class="ac-icon-tile ac-icon-tile--info">${ICON.book}</span>
+    <span class="ac-section-title">Documentação</span>
+    <span class="ac-card__action">Ler as docs <span class="ac-card__go">${ICON.arrow}</span></span>
+  </a>
+</div>`
 	},
 	{
 		id: 'iconTiles',

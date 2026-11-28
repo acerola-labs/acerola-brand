@@ -312,7 +312,7 @@
 			},
 			"linkCard": {
 				"title": "Clickable card",
-				"note": "The whole card is the link and shows the action at rest, not only on hover: a verb and an arrow in the brand color, in a primary-soft circle that fills on hover and focus. It lifts to shadow-float."
+				"note": "The whole card is the link and shows the action at rest, not only on hover: a verb and an arrow in the brand color, in a primary-soft circle that fills on hover and focus. It lifts to shadow-float. The screen's single main action uses .ac-card--primary."
 			},
 			"iconTiles": {
 				"title": "Icon block",
